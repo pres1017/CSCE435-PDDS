@@ -1,19 +1,19 @@
-# CSCE 435 Group project
+# CSCE435-PDDS
 
 ## 1. Group members:
-1. First
-2. Second
-3. Third
-4. Fourth
+1. Daniel Armenta
+2. Prestone Malaer
+3. Shurui Xu
+4. Rahul Kumar
 
 ---
 
-## 2. _due 10/25_ Project topic
+## 2. _due 10/25_ Sorting
 
 ## 2. _due 10/25_ Brief project description (what algorithms will you be comparing and on what architectures)
-
+We will implement sorting algorithms(Quicksort and Merge sort) and measure their performance on MPI and OpenMP.
 For example:
-- Algorithm 1a (MPI + CUDA)
-- Algorithm 1b (MPI on each core)
-- Algorithm 2a (MPI + CUDA)
-- Algorithm 2b (MPI on each core)
+- Quicksort (OpenMP)
+- Quicksort (MPI)
+- Merge sort (OpenMP)
+- Merge sort (MPI)
