@@ -2,38 +2,30 @@
 
 **How we plan to communicate:** Discord
 
-**Algorithms we plan to implement:** Quicksort and Mergesort
+**Algorithms we plan to implement:** Bitonic Sort and Mergesort
 
-**Quicksort Pseudocode**
+**Bitonic Sort Pseudocode**
 
-function quicksort(arr, l, r):
+for (k = 2; k <= sizeBatch; k = 2 * k) {
+        for (j = k >> 1; j > 0; j = j >> 1) {
+            for (i = 0; i < sizeBatch; i++) {
+                int ixj = i ^ j;
+                if (ixj > i) {
+                    if ((i & k) == 0 && d[s + i] > d[s + ixj]) {
+                        float temp = d[s + i];
+                        d[s + i] = d[s + ixj];
+                        d[s + ixj] = temp;
+                    }
+                    if ((i & k) != 0 && d[s + i] < d[s + ixj]) {
+                        float temp = d[s + i];
+                        d[s + i] = d[s + ixj];
+                        d[s + ixj] = temp;
+                    }
+                }
+            }
+        }
+    }
 
-    if l < r:
-    
-        pivot = partition_array(arr, l, r)
-        
-        quicksort(arr, l, pivot - 1)
-        
-        quicksort(arr, pivot + 1, r)
-        
-
-function partition_array(arr, l, r):
-
-    pivotPoint= arr[r]
-    
-    j = l - 1
-    
-    for i from left to right - 1:
-    
-        if arr[i] <= pivotPoint:
-        
-            j = ij+ 1
-            
-            swap(arr[j], arr[i])
-            
-    swap(arr[ij+ 1], arr[r])
-    
-    return j + 1
 
     
 **Mergesort Pseudocode**
