@@ -6,25 +6,25 @@
 
 **Bitonic Sort Pseudocode**
 
-for (k = 2; k <= sizeBatch; k = 2 * k) {
-        for (j = k >> 1; j > 0; j = j >> 1) {
-            for (i = 0; i < sizeBatch; i++) {
-                int ixj = i ^ j;
-                if (ixj > i) {
-                    if ((i & k) == 0 && d[s + i] > d[s + ixj]) {
-                        float temp = d[s + i];
-                        d[s + i] = d[s + ixj];
-                        d[s + ixj] = temp;
-                    }
-                    if ((i & k) != 0 && d[s + i] < d[s + ixj]) {
-                        float temp = d[s + i];
-                        d[s + i] = d[s + ixj];
-                        d[s + ixj] = temp;
+        for (k = 2; k <= sizeBatch; k = 2 * k) {
+                for (j = k >> 1; j > 0; j = j >> 1) {
+                    for (i = 0; i < sizeBatch; i++) {
+                        int ixj = i ^ j;
+                        if (ixj > i) {
+                            if ((i & k) == 0 && d[s + i] > d[s + ixj]) {
+                                float temp = d[s + i];
+                                d[s + i] = d[s + ixj];
+                                d[s + ixj] = temp;
+                            }
+                            if ((i & k) != 0 && d[s + i] < d[s + ixj]) {
+                                float temp = d[s + i];
+                                d[s + i] = d[s + ixj];
+                                d[s + ixj] = temp;
+                            }
+                        }
                     }
                 }
             }
-        }
-    }
 
 
     
