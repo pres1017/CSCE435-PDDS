@@ -63,16 +63,11 @@ enumeration_sort():
 	END IF
 ```
 
-### 2c. Evaluation plan - what and how will you measure and compare
-Input sizes: 2^16, 2^20, 2^24
-Input types: Float
-Strong scaling (same problem size, increase number of processors/nodes)
-Weak scaling (increase problem size, increase number of processors)
-Number of threads in a block on the GPU
+
 
 ## 3
 
-# MERGESORT MPI
+MERGESORT MPI
 ```
 main():
     MPI_Init(&argc, &argv);
@@ -111,7 +106,7 @@ Gathers the arrays back in main
 	
 ```
 
-# MERGESORT CUDA
+MERGESORT CUDA
 ```
 void parallelMergeSort(int *a, int *b, int n) {
     int *dev_a, *dev_b;
@@ -157,7 +152,14 @@ int main() {
     free(b);
 ```
 
-
+### 2c. Evaluation plan - what and how will you measure and compare
+```
+Input sizes: 2^16, 2^20, 2^24
+Input types: Float
+Strong scaling (same problem size, increase number of processors/nodes)
+Weak scaling (increase problem size, increase number of processors)
+Number of threads in a block on the GPU
+```
 ## 3. Project implementation
 
 Please see GitHub branches for algorithm implementations and Caliper files. 
