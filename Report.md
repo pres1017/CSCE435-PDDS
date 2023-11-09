@@ -62,6 +62,69 @@ enumeration_sort():
 		Place current element in 'output' at position 'rank'.
 	END IF
 ```
+Bubble/Odd-Even Sort (MPI)
+...
+bubble(local_arr, size_local_arr) {
+    holder_arr = [size_local_arr]
+    for(0 to num_processors-1) {
+        if (taskid % 2 == 1 and num_processors % 2 == 1) { 
+            if( in odd phase) { 
+                send local_arr to process taskid + 1 using MPI_Send
+                receive local_arr from process taskid + 1 using MPI_Recv and put into holder_arr variable
+                this process keeps the lower half of numbers from local_arr + holder_arr
+            }
+            else if (in even phase and taskid != num_processors - 1) {//in even phase - exclude last
+                send local_arr to process taskid - 1 using MPI_Send
+                receive local_arr from process taskid - 1 using MPI_Recv and put into holder_arr variable
+                this process keeps the higher half of numbers from local_arr + holder_arr
+
+            }
+        }
+        // first and last processes do not get a pair
+        else if(taskid % 2 == 1 && num_processors % 2 == 0) {
+
+            if (in odd phase and rank != numtasks - 1) { 
+                send local_arr to process taskid + 1 using MPI_Send
+                receive local_arr from process taskid + 1 using MPI_Recv and put into holder_arr variable
+                this process keeps the lower half of numbers from local_arr + holder_arr
+            }
+            else if (in even phase) { 
+                send local_arr to process taskid - 1 using MPI_Send
+                receive local_arr from process taskid - 1 using MPI_Recv and put into holder_arr variable
+                this process keeps the higher half of numbers from local_arr + holder_arr
+            }
+        }
+
+        else if(taskid % 2 == 0 && num_processors % 2 == 1) {
+
+            if (in odd phase and taskid != 0) { 
+                send local_arr to process taskid - 1 using MPI_Send
+                receive local_arr from process taskid - 1 using MPI_Recv and put into holder_arr variable
+                this process keeps the higher half of numbers from local_arr + holder_arr
+            }
+            else if (in even phase and taskid != numtasks - 1) { //in even phase - exclude last
+                send local_arr to process taskid + 1 using MPI_Send
+                receive local_arr from process taskid + 1 using MPI_Recv and put into holder_arr variable
+                this process keeps the lower half of numbers from local_arr + holder_arr
+            }
+        }
+        else { // taskid % 2 == 0 and num_processors % 2 == 0  
+            if (in odd phase and taskid != 0) { 
+                send local_arr to process taskid - 1 using MPI_Send
+                receive local_arr from process taskid - 1 using MPI_Recv and put into holder_arr variable
+                this process keeps the higher half of numbers from local_arr + holder_arr
+            }
+            else if (in even phase) { 
+                send local_arr to process taskid + 1 using MPI_Send
+                receive local_arr from process taskid + 1 using MPI_Recv and put into holder_arr variable
+                this process keeps the lower half of numbers from local_arr + holder_arr
+            }
+        }
+    }
+    gather all the arrays into master using MPI_Gather
+}
+...
+
 
 
 
