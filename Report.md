@@ -292,7 +292,74 @@ void bitonic_sort(values)
 
 ```
 
+MPI 
 
+```
+
+bitonic_sort(d, s, sizeBatch, elementPerProcess) {
+    i, j, k;
+    CALI_MARK_BEGIN("comp");
+    CALI_MARK_BEGIN("comp_large");
+    for (k equal to 2; k less than or equal to sizeBatch; k = 2 * k) {
+        for (j =equal to k >> 1; j > 0; j equal to j >> 1) {
+            for (i = 0; i less than sizeBatch; i++) {
+                ixj equal to  i ^ j;
+                if (ixj greater than i) {
+                    if ((i and k) == 0 and d[s + i] > d[s + ixj]) {
+                        temp equal to d[s + i];
+                        d[s + i] equal to  d[s + ixj];
+                        d[s + ixj] equal to temp;
+                    }
+                    if ((i and k) != 0 and d[s + i] less than d[s + ixj]) {
+                        temp equal to d[s + i];
+                        d[s + i] equal to d[s + ixj];
+                        d[s + ixj] equal to temp;
+                    }
+                }
+            }
+        }
+    }
+    CALI_MARK_END("comp_large");
+    CALI_MARK_END("comp");
+}
+
+
+exchange(d, sizeBatch, partner) {
+    rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    partner_data = (float*)malloc(sizeof(float) * sizeBatch / 2);
+
+    if (rank == partner) 
+        memcpy(partner_data, d + (rank < partner ? 0 : sizeBatch / 2), sizeof(float) * sizeBatch / 2);
+    
+
+
+    MPI_Barrier(MPI_COMM_WORLD);
+
+    if (rank less than partner) 
+        CALI_MARK_BEGIN("comm_large");
+        MPI_Send(d + sizeBatch / 2, sizeBatch / 2, MPI_FLOAT, partner, 0, MPI_COMM_WORLD);
+    
+
+    MPI_Bcast(partner_data, sizeBatch / 2, MPI_FLOAT, partner, MPI_COMM_WORLD);
+
+    if (rank greater than or equal to partner) 
+        CALI_MARK_BEGIN("comm_small");
+        MPI_Send(d, sizeBatch / 2, MPI_FLOAT, partner, 0, MPI_COMM_WORLD);
+    
+
+    if (rank less than partner) 
+        memcpy(d + sizeBatch / 2, partner_data, sizeof(float) * sizeBatch / 2);
+        CALI_MARK_END("comm_large");
+    else 
+        memcpy(d, partner_data, sizeof(float) * sizeBatch / 2);
+        CALI_MARK_END("comm_small");
+    
+
+    free(partner_data);
+}
+
+```
 
 ## 3
 
