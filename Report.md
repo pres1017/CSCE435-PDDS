@@ -124,6 +124,44 @@ bubble(local_arr, size_local_arr) {
     gather all the arrays into master using MPI_Gather
 }
 ```
+Bubble/Odd-Even Sort (CUDA)
+```
+malloc(host memory)
+cudaMalloc(device memory)
+cudaMemcpy(host_to_device unsorted array)
+kernel oddEvenSort<<<BLOCKS, THREADS>>>(unsorted_array, NUM_VALS);
+cudaMemcpy(device_to_host sorted array)
+
+
+oddEvenSort(unsorted_array, size) {
+    int tid //thread id
+    int step // Total number of threads in block
+    int swap;
+
+    for (0 to size-1) {
+        for (j = tid; j < size - 1; j += step) {
+            if (in even phase) { // Even phase
+                if (j is even and data[j] > data[j + 1]) {
+                    // Swap adjacent elements
+                    swap = data[j];
+                    data[j] = data[j + 1];
+                    data[j + 1] = swap;
+                }
+            } else { // Odd phase
+                if (j is odd and data[j] > data[j + 1]) {
+                    // Swap adjacent elements
+                    swap = data[j];
+                    data[j] = data[j + 1];
+                    data[j + 1] = swap;
+                }
+            }
+        }
+
+        __syncthreads(); // Synchronize threads within the block
+    }
+}
+
+```
 Bitonic Sort
 ```
 CUDA
