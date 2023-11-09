@@ -1,4 +1,5 @@
 # CSCE435-PDDS
+## 0.Group Number: 20
 
 ## 1. Group members:
 1. Daniel Armenta
@@ -10,7 +11,7 @@
 
 ## 2. _due 10/25_ Sorting
 
-## 2. _due 10/25_ Brief project description (what algorithms will you be comparing and on what architectures)
+### 2a _due 10/25_ Brief project description (what algorithms will you be comparing and on what architectures)
 We will implement sorting algorithms and measure their performance on MPI and CUDA.
 - Bitonic(CUDA)
 - Bitonic(MPI)
@@ -21,6 +22,7 @@ We will implement sorting algorithms and measure their performance on MPI and CU
 - Bubble Sort (CUDA)
 - Bubble Sort (MPI)
 
+### 2b. Pseudocode for each parallel algorithm
 Enumeration Sort (MPI)
 ```
 MPI_Bcast(unsorted_array) //broadcast unsorted array to all threads
@@ -60,4 +62,15 @@ enumeration_sort():
 		Place current element in 'output' at position 'rank'.
 	END IF
 ```
+
+### 2c. Evaluation plan - what and how will you measure and compare
+Input sizes: 2^16, 2^20, 2^24
+Input types: Float
+Strong scaling (same problem size, increase number of processors/nodes)
+Weak scaling (increase problem size, increase number of processors)
+Number of threads in a block on the GPU
+
+## 3. Project implementation
+
+Please see GitHub branches for algorithm implementations and Caliper files. 
 
