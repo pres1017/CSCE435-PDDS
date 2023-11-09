@@ -51,13 +51,13 @@ cudaMemcpy(device_to_host sorted array)
 	
 enumeration_sort():
 	if 'index' is within bounds of the array then
-Initialize 'rank' to zero.
-  For each element 'i' in the array:
-    If the current element is greater than element in the array or in a special case equal but greater in index:
-      Increase 'rank' by one.
-   End if
- End for
-Place current element in 'output' at position 'rank'.
-END IF
+		Initialize 'rank' to zero.
+		  For each element 'i' in the array:
+		    If the current element is greater than element in the array or in a special case equal but greater in index:
+		      Increase 'rank' by one.
+		    End if
+		  End for
+		Place current element in 'output' at position 'rank'.
+	END IF
 ```
 
