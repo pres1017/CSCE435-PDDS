@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <string>
 
 #include <caliper/cali.h>
 #include <caliper/cali-manager.h>
@@ -20,12 +21,32 @@
 #define MAXBOUND 1000001  // up to a million
 
 
-using std::cout, std::endl;
+const char* main = "main";
+const char* data_init = "data_init";
+const char* correctness_check = "correctness_check";
+const char* comm = "comm";
+const char* comm_large = "comm_large";
+const char* comm_small = "comm_small";
+const char* comp = "comp";
+const char* comp_large = "comp_large";
+const char* comp_small = "comp_small";
+
+
+using std::cout, std::endl, std::string;
 
 
 void SetSeed(int rank) {
     unsigned int seed = static_cast<unsigned int>(std::time(nullptr)) + rank;
     std::srand(seed);
+}
+void Correctness(double* arr, int size) {
+    for(int i = 0; i < size - 1; ++i) {
+        if (arr[i] > arr[i + 1]) {
+            cout << "Not sorted" << endl;
+            return;
+        }
+    }
+    cout << "Sorted" << endl;
 }
 
 double* OddEvenSort(int size, double** arr) {
@@ -58,47 +79,6 @@ void SwapHigher(double* &local, double* &holder,int size) {
         }
     }
 }   
-
-/*
-function oddEvenSort(arr):
-    for p times - number of processors
-
-        # i- Odd phase -start from taskid = 1 and depending if num of processes is even or odd then go up to the last process or last process - 1
-            if taskid % 2 == 1:
-                send array to taskid + 1
-                receive array from taskid +1
-            else:
-                send array to taskid - 1
-                receive array from taskid +1
-            swap numbers if necessary 
-
-        # Even phase -  even processes do this. start from taskid = 0 and end depending if num of proc is even or odd
-
-            exchange array with assigned process.
-            if you have to swap some numbers:
-
-
-*/
-
-// each process initializes their own part of the array and sorts
-//each thread sorts their initial array
-
-//when done, try to join arrays with another thread.
-    
-//because both arrays are sorted, comparison starts at the middle, and decreases by one after every loop. stop if already sorted
-
-// 1 4 8 9 12     1 2 4 14
-
-// 1 4 8 9 1 2 4 12 14
-// 1 4 8 1 2 4 8 12 14
-
-// when done, join with another thread.
-
-//stop when all threads done ,slowly kill every
-
-
-//return array
-
 void PrintArr(double* arr, int size) {
     for(int i = 0; i < size; ++i) {
         cout << arr[i] << " ";
@@ -110,6 +90,8 @@ void PrintArr(double* arr, int size) {
 int main (int argc, char *argv[])
 {
     CALI_CXX_MARK_FUNCTION;
+    CALI_MARK_BEGIN(main);
+
     int taskid,numtasks,rc;
     MPI_Init(&argc,&argv);
     MPI_Comm_rank(MPI_COMM_WORLD,&taskid);
@@ -146,30 +128,36 @@ int main (int argc, char *argv[])
         //     arr[i] = new double;
         // }
     }
-
+    CALI_MARK_BEGIN(data_init);
     local_arr = CreateArray(size_local_arr);
+    CALI_MARK_END(data_init);
 
     // #####    sort local_array
-    std::sort(local_arr, local_arr + size_local_arr);
     holder = new double[size_local_arr];
     //MPI_Gather(local_arr, size_local_arr * sizeof(double), MPI_DOUBLE, global_array[offset], size_local_arr, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     int phase = 1; // 1 is odd, -1 is even
    // for p times - number of processors
     int send_rec_from;
-
+    CALI_MARK_BEGIN(comp);
+    CALI_MARK_BEGIN(comp_large);
+    std::sort(local_arr, local_arr + size_local_arr);
+    CALI_MARK_BEGIN(comm);
     for(int i = 0; i < num_processors; ++i) {
+        MPI_Status status;
+
         //include last processes, exlude first process
         if (taskid % 2 == 1 && num_processors % 2 == 1 ) { //<-- take into consideration if even or odd num of processors
             if(phase == 1 ) { //in odd phase - include last processes, 
                 send_rec_from = taskid + 1
+                CALI_MARK_BEGIN(comm_small);
                 MPI_Send(local_arr, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD);
-                MPI_Status status;
-
                 MPI_Recv(holder, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD, &status);
+                CALI_MARK_END(comm_small);
                 //mpi_receive(send_rec_from)
                 //call swap function
+                CALI_MARK_BEGIN(comp_small);
                 SwapLower(local_arr, holder, size_local_arr);
-
+                CALI_MARK_END(comp_small);
 
             }
             else if (phase == -1 && taskid != numtasks - 1) {//in even phase - exclude last
@@ -249,25 +237,10 @@ int main (int argc, char *argv[])
             }
         }
         phase = -1 * phase; // change between odd odd and even phase
-
-        /*##### dont include below
-        # i- Odd phase -start from taskid = 1 and depending if num of processes is even or odd then go up to the last process or last process - 1
-            if taskid % 2 == 1:
-                send_rec_from = taskid - 1
-                send array to taskid + 1
-                receive array from taskid +1
-            else:
-                send array to taskid - 1
-                receive array from taskid +1
-            swap numbers if necessary 
-
-        # Even phase -  even processes do this. start from taskid = 0 and end depending if num of proc is even or odd
-
-            exchange array with assigned process.
-            if you have to swap some numbers:
-
-        ##### */
     }
+    CALI_MARK_END(comp_large);
+    CALI_MARK_END(comp);
+    CALI_MARK_START(comm_large);
     MPI_Gather(local_arr, size_local_arr, MPI_DOUBLE, arr[offset], size_local_arr, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     //wait for all processes to finish
@@ -279,26 +252,49 @@ int main (int argc, char *argv[])
         //delete[] local_arr;
     }
     MPI_Barrier(MPI_COMM_WORLD);
-    delete[] arr
+    CALI_MARK_END(comm_large);
+    CALI_MARK_END(comm);
+    CALI_MARK_START(correctness_check);
+    Correctness(arr, size_arr);
+    CALI_MARK_END(correctness_check);
+    CALI_MARK_END(main);
+    delete[] arr;
+    
+    if (taskid == 0) {
+        string algorithm, programmingModel,datatype, inputType, implementation_source;
+        algorithm = "Bubble/Odd-Even Sort";
+        programmingModel = "MPI";
+        datatype = "double but can change to float";
+        inputType = "sorted";
+        implementation_source = "All 3, Online, AI, and Handwritten";
+        int sizeOfDatatype, inputSize, num_procs, num_threads, num_blocks, group_number;
+        sizeOfDatatype = sizeof(double);
+        inputSize = size_arr;
+        num_procs = num_processors;
+        num_threads = 0;
+        num_blocks = 0;
+        group_number = 20;
+        adiak::init(NULL);
+        adiak::launchdate();    // launch date of the job
+        adiak::libraries();     // Libraries used
+        adiak::cmdline();       // Command line used to launch the job
+        adiak::clustername();   // Name of the cluster
+        adiak::value("Algorithm", algorithm); // The name of the algorithm you are using (e.g., "MergeSort", "BitonicSort")
+        adiak::value("ProgrammingModel", programmingModel); // e.g., "MPI", "CUDA", "MPIwithCUDA"
+        adiak::value("Datatype", datatype); // The datatype of input elements (e.g., double, int, float)
+        adiak::value("SizeOfDatatype", sizeOfDatatype); // sizeof(datatype) of input elements in bytes (e.g., 1, 2, 4)
+        adiak::value("InputSize", inputSize); // The number of elements in input dataset (1000)
+        adiak::value("InputType", inputType); // For sorting, this would be "Sorted", "ReverseSorted", "Random", "1%perturbed"
+        adiak::value("num_procs", num_procs); // The number of processors (MPI ranks)
+        adiak::value("num_threads", num_threads); // The number of CUDA or OpenMP threads
+        adiak::value("num_blocks", num_blocks); // The number of CUDA blocks 
+        adiak::value("group_num", group_number); // The number of your group (integer, e.g., 1, 10)
+        adiak::value("implementation_source", implementation_source) // Where you got the source code of your algorithm; choices: ("Online", "AI", "Handwritten").
+    }
+    // Flush Caliper output before finalizing MPI
+    mgr.stop();
+    mgr.flush();
+
+    MPI_Finalize();
     return 0;
 }
-
-/*
-
-
-40 size    7
-
-10 10 
-20 
-
-10 10
-20
-
-50 
-
-
-notes:
-
-
-
-*/
