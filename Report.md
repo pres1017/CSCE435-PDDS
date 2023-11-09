@@ -163,8 +163,8 @@ oddEvenSort(unsorted_array, size) {
 
 ```
 Bitonic Sort
-```
 CUDA
+```
 bitonic_sort_step(dev_values,j,k){
   i, ixj;
   i equal to threadIdx.x + blockDim.x * blockIdx.x;
