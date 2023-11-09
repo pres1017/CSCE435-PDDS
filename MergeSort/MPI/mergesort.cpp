@@ -1,3 +1,9 @@
+/*
+*
+* ChatGPT was used for help with MPI debugging. 
+*
+*/
+
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -17,10 +23,11 @@ const char* comm_small = "comm_small";
 const char* comp = "comp";
 const char* comp_large = "comp_large";
 const char* comp_small = "comp_small";
+const char* data_validation = "data_validation";
 
 // Function to merge two subarrays
 void merge(int arr[], int l, int m, int r) {
-    CALI_MARK_BEGIN("comp_small");
+    CALI_MARK_BEGIN(comp_small);
     int i, j, k;
     int n1 = m - l + 1;
     int n2 =  r - m;
@@ -57,7 +64,7 @@ void merge(int arr[], int l, int m, int r) {
         j++;
         k++;
     }
-    CALI_MARK_END("comp_small");
+    CALI_MARK_END(comp_small);
 }
 
 // Function to perform merge sort
@@ -74,9 +81,19 @@ void mergeSort(int arr[], int l, int r) {
     CALI_MARK_END("comp_large");
 }
 
+float randomFloat(int a, int b)
+{
+    if (a > b)
+        return randomFloat(b, a);
+    if (a == b)
+        return a;
+ 
+    return (float)randomInt(a, b) + randomFloat();
+}
+
 int main(int argc, char** argv) {
     MPI_Init(&argc, &argv);
-    CALI_MARK_BEGIN("main");
+    CALI_MARK_BEGIN(main);
 
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -84,12 +101,12 @@ int main(int argc, char** argv) {
 
     std::string arg = argv[1];
     const int n = std::stoi(arg);
-    int array[n];
+    float array[n];
     srand(time(NULL));
     if (rank == 0) {
         std::cout << "Original array: ";
         for (int i = 0; i < n; i++) {
-            array[i] = rand() % 1000;
+            array[i] = randomFloat(1, 1000);
             std::cout << array[i] << " ";
         }
         std::cout << std::endl;
@@ -103,41 +120,47 @@ int main(int argc, char** argv) {
     int local_n = n / size;
     int local_array[local_n];
 
-    CALI_MARK_BEGIN("comm");
-    CALI_MARK_BEGIN("comm_large");
+    CALI_MARK_BEGIN(comm);
+    CALI_MARK_BEGIN(comm_large);
     MPI_Scatter(array, local_n, MPI_INT, local_array, local_n, MPI_INT, 0, MPI_COMM_WORLD);
-    CALI_MARK_END("comm_large");
-    CALI_MARK_END("comm");
-    
-    CALI_MARK_BEGIN("comp");
+    CALI_MARK_END(comm_large);
+    CALI_MARK_END(comm);
+
+    CALI_MARK_BEGIN(comp);
     mergeSort(local_array, 0, local_n - 1);
-    CALI_MARK_END("comp");
+    CALI_MARK_END(comp);
 
     MPI_Gather(local_array, local_n, MPI_INT, array, local_n, MPI_INT, 0, MPI_COMM_WORLD);
 
+    CALI_MARK_BEGIN(data_validation);
     if (rank == 0) {
         mergeSort(array, 0, n - 1);
         std::cout << "Sorted array: ";
-        for (int i = 0; i < n; i++) {
-            std::cout << array[i] << " ";
+        for (int i = 1; i <= n; i++) {
+            if(i != n && array[i] < array[i - 1]){
+                printf("Not sorted\n");
+                break;
+            }
+            std::cout << array[i - 1] << " ";
         }
         std::cout << std::endl;
     }
+    CALI_MARK_END(data_validation);
 
-    CALI_MARK_END("main");
+    CALI_MARK_END(main);
 
     adiak::init(NULL);
     adiak::launchdate();    // launch date of the job
     adiak::libraries();     // Libraries used
     adiak::cmdline();       // Command line used to launch the job
     adiak::clustername();   // Name of the cluster
-    adiak::value("Algorithm", "EnumerationSort"); // The name of the algorithm you are using (e.g., "MergeSort", "BitonicSort")
+    adiak::value("Algorithm", "MergeSort"); // The name of the algorithm you are using (e.g., "MergeSort", "BitonicSort")
     adiak::value("ProgrammingModel", "MPI"); // e.g., "MPI", "CUDA", "MPIwithCUDA"
     adiak::value("Datatype", "float"); // The datatype of input elements (e.g., double, int, float)
     adiak::value("SizeOfDatatype", sizeof(float)); // sizeof(datatype) of input elements in bytes (e.g., 1, 2, 4)
     adiak::value("InputSize", n); // The number of elements in input dataset (1000)
     adiak::value("InputType", "Random"); // For sorting, this would be "Sorted", "ReverseSorted", "Random", "1%perturbed"
-    adiak::value("num_procs", numtasks); // The number of processors (MPI ranks)
+    adiak::value("num_procs", size); // The number of processors (MPI ranks)
     adiak::value("num_threads", 0); // The number of CUDA or OpenMP threads
     adiak::value("num_blocks", 0); // The number of CUDA blocks 
     adiak::value("group_num", 20); // The number of your group (integer, e.g., 1, 10)
