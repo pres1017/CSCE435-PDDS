@@ -70,6 +70,94 @@ Strong scaling (same problem size, increase number of processors/nodes)
 Weak scaling (increase problem size, increase number of processors)
 Number of threads in a block on the GPU
 
+## 3
+
+# MERGESORT MPI
+```
+main():
+    MPI_Init(&argc, &argv);
+
+
+    int rank, size;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+
+    const int n = std::stoi(arg);
+    int array[n];
+
+
+    MPI_Bcast(array, n, MPI_INT, 0, MPI_COMM_WORLD);
+
+
+    int local_n = n / size;
+    int local_array[local_n];
+
+
+    MPI_Scatter(array, local_n, MPI_INT, local_array, local_n, MPI_INT, 0, MPI_COMM_WORLD);
+
+
+    mergeSort(local_array, 0, local_n - 1);
+
+
+    MPI_Gather(local_array, local_n, MPI_INT, array, local_n, MPI_INT, 0, MPI_COMM_WORLD);
+
+
+/*
+Scatters the arrays to the threads
+Performs MergeSort
+Gathers the arrays back in main
+*/
+	
+```
+
+# MERGESORT CUDA
+```
+void parallelMergeSort(int *a, int *b, int n) {
+    int *dev_a, *dev_b;
+    cudaMalloc((void**)&dev_a, n * sizeof(int));
+    cudaMalloc((void**)&dev_b, n * sizeof(int));
+
+
+    cudaMemcpy(dev_a, a, n * sizeof(int), cudaMemcpyHostToDevice);
+
+
+    int blockSize = 256;
+    int numBlocks = (n + blockSize - 1) / blockSize;
+   
+    for (int i = 2; i <= n; i *= 2) {
+        for (int j = 0; j < n; j += i) {
+            CALIPER_MARK_BEGIN(small_comp);
+            merge<<<numBlocks, blockSize>>>(dev_a, dev_b, dev_b, i);
+            cudaDeviceSynchronize();
+            CALIPER_MARK_END(small_comp);
+        }
+    }
+
+
+    cudaMemcpy(a, dev_a, n * sizeof(int), cudaMemcpyDeviceToHost);
+    cudaFree(dev_a);
+    cudaFree(dev_b);
+}
+
+
+int main() {
+    cali::ConfigManager mgr;
+    mgr.start();
+
+
+    int a[] = {12, 11, 13, 5, 6, 7};
+    int n = sizeof(a)/sizeof(a[0]);
+    int *b = (int*)malloc(n * sizeof(int));
+
+
+    parallelMergeSort(a, b, n);
+
+
+    free(b);
+```
+
+
 ## 3. Project implementation
 
 Please see GitHub branches for algorithm implementations and Caliper files. 
