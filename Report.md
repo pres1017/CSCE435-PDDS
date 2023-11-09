@@ -125,7 +125,7 @@ bubble(local_arr, size_local_arr) {
 }
 ```
 Bitonic Sort
-...
+```
 CUDA
 bitonic_sort_step(dev_values,j,k){
   i, ixj;
@@ -252,7 +252,7 @@ void bitonic_sort(values)
 }
   
 
-...
+```
 
 
 
