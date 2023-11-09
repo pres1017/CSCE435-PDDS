@@ -124,7 +124,135 @@ bubble(local_arr, size_local_arr) {
     gather all the arrays into master using MPI_Gather
 }
 ```
+Bitonic Sort
+...
+CUDA
+bitonic_sort_step(dev_values,j,k){
+  i, ixj;
+  i equal to threadIdx.x + blockDim.x * blockIdx.x;
+  ixj equal to i^j;
+  
 
+  if ixj greater than i {
+    if i and k ==0 {
+      if (dev_values at i is greater than dev_values at ixj) {
+        temp = dev_values at i;
+        dev_values at i = dev_values at ixj;
+        dev_values at ixj = temp;
+      }
+    }
+    if i and k not equal to 0 {
+      if (dev_values at i is less than dev_values at ixj) {
+        temp equal to dev_values[i];
+        dev_values at i equal to dev_valuesat ixj;
+        dev_values at ixj equal to temp;
+      }
+    }
+  }
+  }
+
+void bitonic_sort(values)
+{
+  dev_values;
+  size = NUM_VALS  times sizeof(float);
+  cudaEvent_t start, stop;
+
+  cudaMalloc((void**) &dev_values, size);
+  
+  cudaEventCreate(&start);
+  cudaEventCreate(&stop);
+
+  CALI_MARK_BEGIN("comm");
+
+  if (size less than COMM_SMALL_THRESHOLD)
+  	CALI_MARK_BEGIN("comm_small");
+  else 
+  	CALI_MARK_BEGIN("comm_large");
+  
+
+  CALI_MARK_BEGIN(cudaMemcpy_host_to_device);
+  cudaEventRecord(start);
+  cudaMemcpy(dev_values, values, size, cudaMemcpyHostToDevice);
+  cudaEventRecord(stop);
+  CALI_MARK_END(cudaMemcpy_host_to_device);
+
+ if (size less than COMM_SMALL_THRESHOLD)
+  	CALI_MARK_END("comm_small");
+  else 
+  	CALI_MARK_END("comm_large");
+
+  CALI_MARK_END("comm");
+
+  cudaEventSynchronize(stop);
+  cudaEventElapsedTime(&cudaMemcpy_host_to_device_time_calculated, start, stop);
+
+  blocks;
+  threads;
+  
+  j, k;
+
+  CALI_MARK_BEGIN("comp");
+  
+  if (threads less than COMP_SMALL_THRESHOLD) 
+    CALI_MARK_BEGIN("comp_small");
+  else 
+    CALI_MARK_BEGIN("comp_large");
+
+
+  CALI_MARK_BEGIN(bitonic_sort_step_region);
+  cudaEventRecord(start);
+  for k = 2, k less than number of vals; k >> 1
+    for (j=k>>1; j>0; j=j>>1) {
+      
+      bitonic_sort_step<<<blocks, threads>>>(dev_values, j, k);
+      kernel_calls++;
+    }
+  }
+  cudaEventRecord(stop);
+  CALI_MARK_END(bitonic_sort_step_region);
+
+  if (threads less than COMP_SMALL_THRESHOLD) 
+    CALI_MARK_END("comp_small");
+  else 
+    CALI_MARK_END("comp_large");
+    
+  CALI_MARK_END("comp");
+
+  cudaDeviceSynchronize();
+  cudaEventElapsedTime(&bitonic_sort_step_time_calculated, start, stop);
+  
+  
+  //MEM COPY FROM DEVICE TO HOST
+  CALI_MARK_BEGIN("comm");
+
+  if (size less than COMM_SMALL_THRESHOLD)
+  	CALI_MARK_BEGIN("comm_small");
+  else 
+  	CALI_MARK_BEGIN("comm_large");
+
+  CALI_MARK_BEGIN(cudaMemcpy_device_to_host);
+  cudaEventRecord(start);
+  cudaMemcpy(values, dev_values, size, cudaMemcpyDeviceToHost);
+  cudaEventRecord(stop);
+  CALI_MARK_END(cudaMemcpy_device_to_host);
+
+  if (size less than COMM_SMALL_THRESHOLD)
+  	CALI_MARK_END("comm_small");
+  else 
+  	CALI_MARK_END("comm_large");
+
+  CALI_MARK_END("comm");
+
+  cudaEventSynchronize(stop);
+  cudaEventElapsedTime(&cudaMemcpy_device_to_host_time_calculated, start, stop);
+  
+  cudaFree(dev_values);
+  cudaEventDestroy(start);
+  cudaEventDestroy(stop);
+}
+  
+
+...
 
 
 
