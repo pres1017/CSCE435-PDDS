@@ -8,7 +8,7 @@
 #include <caliper/cali.h>
 #include <caliper/cali-manager.h>
 #include <adiak.hpp>
-
+#include <algorithm>
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
@@ -99,6 +99,13 @@ function oddEvenSort(arr):
 
 //return array
 
+void PrintArr(double* arr, int size) {
+    for(int i = 0; i < size; ++i) {
+        cout << arr[i] << " ";
+    }
+    cout << " " << endl;
+}
+
 
 int main (int argc, char *argv[])
 {
@@ -115,7 +122,7 @@ int main (int argc, char *argv[])
     numworkers = numtasks-1;
 
     // WHOLE PROGRAM COMPUTATION PART STARTS HERE
-    CALI_MARK_BEGIN(whole_computation);
+    //CALI_MARK_BEGIN(whole_computation);
 
     // Create caliper ConfigManager object
     cali::ConfigManager mgr;
@@ -127,22 +134,23 @@ int main (int argc, char *argv[])
     double* local_arr;
     double* holder;
     // need to change
-    int num_processors = stoi(argc[1]);
-    int size_arr = stoi(argc[2]);
+    int num_processors = atoi(argv[2]);
+    int size_arr = atoi(argv[1]);
 
     int size_local_arr = size_arr / num_processors;
     int offset = taskid * size_local_arr;
     if (taskid == MASTER) {
         // allocating memory only for master process
-        arr = new double*[size_arr];
-        for(int i = 0; i < size_arr; ++i){
-            arr[i] = new double;
-        }
+        arr = new double[size_arr];
+        // for(int i = 0; i < size_arr; ++i){
+        //     arr[i] = new double;
+        // }
     }
 
     local_arr = CreateArray(size_local_arr);
 
     // #####    sort local_array
+    std::sort(local_arr, local_arr + size_local_arr);
     holder = new double[size_local_arr];
     //MPI_Gather(local_arr, size_local_arr * sizeof(double), MPI_DOUBLE, global_array[offset], size_local_arr, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     int phase = 1; // 1 is odd, -1 is even
@@ -154,22 +162,25 @@ int main (int argc, char *argv[])
         if (taskid % 2 == 1 && num_processors % 2 == 1 ) { //<-- take into consideration if even or odd num of processors
             if(phase == 1 ) { //in odd phase - include last processes, 
                 send_rec_from = taskid + 1
-                MPI_Send(local_arr, size_local_arr, MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD);
+                MPI_Send(local_arr, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD);
                 MPI_Status status;
 
-                MPI_Recv(holder, size_local_arr, MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD, &status);
+                MPI_Recv(holder, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD, &status);
                 //mpi_receive(send_rec_from)
                 //call swap function
+                SwapLower(local_arr, holder, size_local_arr);
 
 
             }
             else if (phase == -1 && taskid != numtasks - 1) {//in even phase - exclude last
                 send_rec_from = taskid - 1
-                MPI_Send(local_arr, size_local_arr, MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD);
+                MPI_Send(local_arr, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD);
                 MPI_Status status;
 
-                MPI_Recv(holder, size_local_arr, MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD, &status);
+                MPI_Recv(holder, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD, &status);
                 //swap values
+                SwapHigher(local_arr, holder, size_local_arr);
+
             }
         }
         // first and last processes do not get a pair
@@ -177,19 +188,21 @@ int main (int argc, char *argv[])
 
             if (phase == 1 && rank != numtasks - 1) { //in odd phase - exclude last
                 send_rec_from = taskid + 1
-                MPI_Send(local_arr, size_local_arr, MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD);
+                MPI_Send(local_arr, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD);
                 MPI_Status status;
 
-                MPI_Recv(holder, size_local_arr, MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD, &status);
+                MPI_Recv(holder, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD, &status);
                 //swap values
+                SwapLower(local_arr, holder, size_local_arr);
             }
             else if (phase == -1) { //in even phase - include everyone
                 send_rec_from = taskid - 1
-                MPI_Send(local_arr, size_local_arr, MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD);
+                MPI_Send(local_arr, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD);
                 MPI_Status status;
 
-                MPI_Recv(holder, size_local_arr, MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD, &status);
+                MPI_Recv(holder, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD, &status);
                 //swap values
+                SwapHigher(local_arr, holder, size_local_arr);
             }
         }
         //last process does not get a pair
@@ -197,41 +210,45 @@ int main (int argc, char *argv[])
 
             if (phase == 1 && taskid != 0) { //in odd phase - exclude first
                 send_rec_from = taskid - 1
-                MPI_Send(local_arr, size_local_arr, MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD);
+                MPI_Send(local_arr, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD);
                 MPI_Status status;
 
-                MPI_Recv(holder, size_local_arr, MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD, &status);
+                MPI_Recv(holder, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD, &status);
                 //swap values
+                SwapHigher(local_arr, holder, size_local_arr);
             }
             else if (phase == -1 && taskid != numtasks - 1) { //in even phase - exclude last
                 send_rec_from = taskid + 1
-                MPI_Send(local_arr, size_local_arr, MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD);
+                MPI_Send(local_arr, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD);
                 MPI_Status status;
 
-                MPI_Recv(holder, size_local_arr, MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD, &status);
+                MPI_Recv(holder, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD, &status);
                 //swap values
+                SwapLower(local_arr, holder, size_local_arr);
             }
         }
         // they all get a pair - even and even
         else { // taskid % 2 == 0 and num_processors % 2 == 0   <--- take into consideration num of processes. even or odd
             if (phase == 1 && taskid != 0) { //in odd phase - exclude first and last
                 send_rec_from = taskid - 1
-                MPI_Send(local_arr, size_local_arr, MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD);
+                MPI_Send(local_arr, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD);
                 MPI_Status status;
 
-                MPI_Recv(holder, size_local_arr, MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD, &status);
+                MPI_Recv(holder, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD, &status);
                 //swap values
+                SwapHigher(local_arr, holder, size_local_arr);
             }
             else if (phase == -1) { //in even phase - include everyone
                 send_rec_from = taskid + 1
-                MPI_Send(local_arr, size_local_arr, MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD);
+                MPI_Send(local_arr, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD);
                 MPI_Status status;
 
-                MPI_Recv(holder, size_local_arr, MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD, &status);
+                MPI_Recv(holder, size_local_arr * sizeof(double), MPI_DOUBLE, send_rec_from, 0, MPI_COMM_WORLD, &status);
                 //swap values
+                SwapLower(local_arr, holder, size_local_arr);
             }
         }
-        phase = -1 * phase; // change to even phase
+        phase = -1 * phase; // change between odd odd and even phase
 
         /*##### dont include below
         # i- Odd phase -start from taskid = 1 and depending if num of processes is even or odd then go up to the last process or last process - 1
@@ -251,16 +268,18 @@ int main (int argc, char *argv[])
 
         ##### */
     }
+    MPI_Gather(local_arr, size_local_arr, MPI_DOUBLE, arr[offset], size_local_arr, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     //wait for all processes to finish
     MPI_Barrier(MPI_COMM_WORLD);
     if (taskid == 0){
-        MPI_Gather(local_arr, size_local_arr * sizeof(double), MPI_DOUBLE, global_array[offset], size_local_arr, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-        for(int i  = 0; i < size_arr ; ++i) {
-            cout << *arr[i] << endl;
-        }
+        MPI_Gather(local_arr, size_local_arr * sizeof(double), MPI_DOUBLE, arr[offset], size_local_arr, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+        PrintArr(arr, size_arr);
+        delete[] arr;
+        //delete[] local_arr;
     }
-
+    MPI_Barrier(MPI_COMM_WORLD);
+    delete[] arr
     return 0;
 }
 
