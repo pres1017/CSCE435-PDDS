@@ -162,8 +162,7 @@ oddEvenSort(unsorted_array, size) {
 }
 
 ```
-Bitonic Sort
-CUDA
+Bitonic Sort CUDA
 ```
 bitonic_sort_step(dev_values,j,k){
   i, ixj;
@@ -292,7 +291,7 @@ void bitonic_sort(values)
 
 ```
 
-MPI 
+Bitonic Sort MPI 
 
 ```
 
@@ -360,8 +359,6 @@ exchange(d, sizeBatch, partner) {
 }
 
 ```
-
-## 3
 
 MERGESORT MPI
 ```
