@@ -63,7 +63,7 @@ enumeration_sort():
 	END IF
 ```
 Bubble/Odd-Even Sort (MPI)
-...
+```
 bubble(local_arr, size_local_arr) {
     holder_arr = [size_local_arr]
     for(0 to num_processors-1) {
@@ -123,7 +123,7 @@ bubble(local_arr, size_local_arr) {
     }
     gather all the arrays into master using MPI_Gather
 }
-...
+```
 
 
 
