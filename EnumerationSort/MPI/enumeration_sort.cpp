@@ -26,27 +26,73 @@
 #define FROM_WORKER 2          /* setting a message type */
 
 int NUM_VALS;
+int sorting;
 /* Define Caliper region names */
 const char* comm = "comm";
 const char* comm_large = "comm_large";
 const char* comp = "comp";
 const char* comp_large = "comp_large";
+const char* mpi_bcast = "MPI_Bcast";
+const char* mpi_gather = "MPI_Gather";
 
 float random_float()
 {
   return (float)rand()/(float)RAND_MAX;
 }
 
-void array_fill(float *arr, int length)
+void data_init(float *arr, int length, int sorting)
 {
-  srand(time(NULL));
-  int i;
-  for (i = 0; i < length; ++i) {
-    arr[i] = random_float();
+  CALI_CXX_MARK_FUNCTION;
+  if (sorting == 0){ //random sort
+    srand(time(NULL));
+    int i;
+    for (i = 0; i < length; ++i) {
+      arr[i] = random_float();
+    }
+  }
+
+  else if (sorting == 1){ //sorted
+    float step = 1.0; 
+    for (int i = 0; i < length; i++) {
+        arr[i] = i * step;
+    }
+  } 
+
+  else if (sorting == 2){ //reverse sorted
+    float step = 1.0; 
+    for (int i = 0; i < length; i++) {
+        arr[i] = length - i * step;
+    }
+  }
+
+  else if (sorting == 3){
+    float step = 1.0; // Step size for the sorted array
+
+    // Initialize the array with sorted values
+    for (int i = 0; i < length; i++) {
+        arr[i] = i * step;
+    }
+
+    srand((unsigned)time(NULL));
+
+    // Calculate 1% of the array's length
+    int perturbCount = length / 100;
+
+    for (int i = 0; i < perturbCount; i++) {
+        // Select two random indices
+        int idx1 = rand() % length;
+        int idx2 = rand() % length;
+
+        // Swap the elements at these indices
+        float temp = arr[idx1];
+        arr[idx1] = arr[idx2];
+        arr[idx2] = temp;
+    }
   }
 }
 
 bool correctness_check(float *arr, int length){
+  CALI_CXX_MARK_FUNCTION;
   bool sorted = true;
   for (int i = 0; i < length-1; ++i) {
     if(arr[i]>arr[i+1]){
@@ -62,7 +108,9 @@ void parallelEnumerationSort(float *array, int size, int rank, int numprocs) {
     // Broadcast the entire array to all processes
     CALI_MARK_BEGIN(comm);
     CALI_MARK_BEGIN(comm_large);
+    CALI_MARK_BEGIN(mpi_bcast);
     MPI_Bcast(array, size, MPI_FLOAT, MASTER, MPI_COMM_WORLD);
+    CALI_MARK_END(mpi_bcast);
     CALI_MARK_END(comm_large);
     CALI_MARK_END(comm);
 
@@ -88,15 +136,20 @@ void parallelEnumerationSort(float *array, int size, int rank, int numprocs) {
 
     CALI_MARK_BEGIN(comm);
     CALI_MARK_BEGIN(comm_large);
+    CALI_MARK_BEGIN(mpi_gather);
     int *sorted_indices = NULL;
     // Gather the sorted segments into the global sorted array
     if (rank == MASTER) {
         sorted_indices = (int *)malloc(size * sizeof(int));
     }
     MPI_Gather(local_sorted_indices, local_size, MPI_INT, sorted_indices, local_size, MPI_INT, MASTER, MPI_COMM_WORLD);
+    free(local_sorted_indices); 
+    CALI_MARK_END(mpi_gather);
     CALI_MARK_END(comm_large);
     CALI_MARK_END(comm);
 
+    CALI_MARK_BEGIN(comp);
+    CALI_MARK_BEGIN(comp_large);
     // Merge the sorted segments in the master
     if (rank == MASTER) {
         float *array_cpy = (float *)malloc(size * sizeof(float));
@@ -107,7 +160,11 @@ void parallelEnumerationSort(float *array, int size, int rank, int numprocs) {
         for(int i = 0; i < size; i++){
             array[sorted_indices[i]] = array_cpy[i];
         }
+        free(sorted_indices);
+        free(array_cpy);
     }
+    CALI_MARK_END(comp_large);
+    CALI_MARK_END(comp);
 }
 // no need for MPI_Barrier because Bcast and Gather synchronize all processes implicitly
 
@@ -124,16 +181,9 @@ int main (int argc, char *argv[])
     MPI_Comm_rank(MPI_COMM_WORLD,&taskid);
     MPI_Comm_size(MPI_COMM_WORLD,&numtasks);
 
-    if (argc != 2) {
-        if (taskid == MASTER) {
-            printf("\n Please provide the size of the arrray to be sorted\n");
-        }
-        MPI_Finalize();
-        exit(1);
-    }
-
     sizeOfArray = atoi(argv[1]);
     NUM_VALS = sizeOfArray;
+    sorting = atoi(argv[2]);
 
     cali::ConfigManager mgr;
     mgr.start();
@@ -149,7 +199,7 @@ int main (int argc, char *argv[])
     // fill the initial global array with random values
     if (taskid == MASTER) {
         // Initialize the array with random values
-        array_fill(global_array, NUM_VALS);
+        data_init(global_array, NUM_VALS, sorting);
         // printf("Random Array:\n");
         // for (int i = 0; i < sizeOfArray; i++) {
         //     printf("%f ", global_array[i]);
@@ -180,7 +230,23 @@ int main (int argc, char *argv[])
     adiak::value("Datatype", "float"); // The datatype of input elements (e.g., double, int, float)
     adiak::value("SizeOfDatatype", sizeof(float)); // sizeof(datatype) of input elements in bytes (e.g., 1, 2, 4)
     adiak::value("InputSize", NUM_VALS); // The number of elements in input dataset (1000)
-    adiak::value("InputType", "Random"); // For sorting, this would be "Sorted", "ReverseSorted", "Random", "1%perturbed"
+    switch (sorting) {
+      case 0:
+        adiak::value("InputType", "Random");
+        break;
+      case 1:
+        adiak::value("InputType", "Sorted");
+        break;
+      case 2:
+        adiak::value("InputType", "ReverseSorted");
+        break;
+      case 3:
+        adiak::value("InputType", "1%%perturbed");
+        break;
+      default:
+        adiak::value("InputType", "Random");
+     }
+    //adiak::value("InputType", "Random"); // For sorting, this would be "Sorted", "ReverseSorted", "Random", "1%perturbed"
     adiak::value("num_procs", numtasks); // The number of processors (MPI ranks)
     adiak::value("num_threads", 0); // The number of CUDA or OpenMP threads
     adiak::value("num_blocks", 0); // The number of CUDA blocks 
