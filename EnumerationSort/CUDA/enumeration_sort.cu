@@ -12,29 +12,21 @@
 int THREADS;
 int BLOCKS;
 int NUM_VALS;
+int sorting;
 int operations = 0;
 
 const char* comm = "comm";
 const char* comm_large = "comm_large";
 const char* comp = "comp";
 const char* comp_large = "comp_large";
+const char* cuda_Memcpy = "cudaMemcpy";
+
 
 // Store results in these variables.
 float effective_bandwidth_gb_s = 0.0;
 float bitonic_sort_step_time = 0.0;
 float cudaMemcpy_host_to_device_time = 0.0;
 float cudaMemcpy_device_to_host_time = 0.0;
-
-void print_elapsed(clock_t start, clock_t stop)
-{
-  double elapsed = ((double) (stop - start)) / CLOCKS_PER_SEC;
-  printf("Elapsed time: %.3fs\n", elapsed);
-  printf("bitonic_sort_step_time time: %.3fms\n", bitonic_sort_step_time);
-  printf("cudaMemcpy_host_to_device_time time: %.3fms\n", cudaMemcpy_host_to_device_time);
-  printf("cudaMemcpy_device_to_host_time time: %.3fms\n", cudaMemcpy_device_to_host_time);
-  printf("Effective Bandwidth (GB/s): %f\n", effective_bandwidth_gb_s);
-
-}
 
 float random_float()
 {
@@ -50,16 +42,59 @@ void array_print(float *arr, int length)
   printf("\n");
 }
 
-void array_fill(float *arr, int length)
+void data_init(float *arr, int length, int sorting)
 {
-  srand(time(NULL));
-  int i;
-  for (i = 0; i < length; ++i) {
-    arr[i] = random_float();
+  CALI_CXX_MARK_FUNCTION;
+  if (sorting == 0){ //random sort
+    srand(time(NULL));
+    int i;
+    for (i = 0; i < length; ++i) {
+      arr[i] = random_float();
+    }
+  }
+
+  else if (sorting == 1){ //sorted
+    float step = 1.0; 
+    for (int i = 0; i < length; i++) {
+        arr[i] = i * step;
+    }
+  } 
+
+  else if (sorting == 2){ //reverse sorted
+    float step = 1.0; 
+    for (int i = 0; i < length; i++) {
+        arr[i] = length - i * step;
+    }
+  }
+
+  else if (sorting == 3){
+    float step = 1.0; // Step size for the sorted array
+
+    // Initialize the array with sorted values
+    for (int i = 0; i < length; i++) {
+        arr[i] = i * step;
+    }
+
+    srand((unsigned)time(NULL));
+
+    // Calculate 1% of the array's length
+    int perturbCount = length / 100;
+
+    for (int i = 0; i < perturbCount; i++) {
+        // Select two random indices
+        int idx1 = rand() % length;
+        int idx2 = rand() % length;
+
+        // Swap the elements at these indices
+        float temp = arr[idx1];
+        arr[idx1] = arr[idx2];
+        arr[idx2] = temp;
+    }
   }
 }
 
 bool correctness_check(float *arr, int length){
+  CALI_CXX_MARK_FUNCTION;
   bool sorted = true;
   for (int i = 0; i < length-1; ++i) {
     if(arr[i]>arr[i+1]){
@@ -86,14 +121,16 @@ __global__ void enumeration_sort(float *input, float *output, int n) {
 
 int main(int argc, char *argv[])
 {
+    CALI_CXX_MARK_FUNCTION;
     THREADS = atoi(argv[1]);
     NUM_VALS = atoi(argv[2]);
+    sorting = atoi(argv[3]);
     BLOCKS = NUM_VALS / THREADS;
     size_t size = NUM_VALS * sizeof(float);
 
-    printf("Number of threads: %d\n", THREADS);
-    printf("Number of values: %d\n", NUM_VALS);
-    printf("Number of blocks: %d\n", BLOCKS);
+    // printf("Number of threads: %d\n", THREADS);
+    // printf("Number of values: %d\n", NUM_VALS);
+    // printf("Number of blocks: %d\n", BLOCKS);
 
     // Create caliper ConfigManager object
     cali::ConfigManager mgr;
@@ -102,7 +139,7 @@ int main(int argc, char *argv[])
     // allocate host memory
     float *host_input = (float*)malloc(size);
     float *host_output = (float*)malloc(size);
-    array_fill(host_input, NUM_VALS);
+    data_init(host_input, NUM_VALS, sorting);
 
     // allocate device memory
     float *device_input, *device_output;
@@ -111,8 +148,10 @@ int main(int argc, char *argv[])
 
     CALI_MARK_BEGIN(comm);
     CALI_MARK_BEGIN(comm_large);
+    CALI_MARK_BEGIN(cuda_Memcpy);
     // copy from host to device
     cudaMemcpy(device_input, host_input, size, cudaMemcpyHostToDevice);
+    CALI_MARK_END(cuda_Memcpy);
     CALI_MARK_END(comm_large);
     CALI_MARK_END(comm);
 
@@ -125,8 +164,10 @@ int main(int argc, char *argv[])
 
     CALI_MARK_BEGIN(comm);
     CALI_MARK_BEGIN(comm_large);
+    CALI_MARK_BEGIN(cuda_Memcpy);
     // copy from device to host
     cudaMemcpy(host_output, device_output, size, cudaMemcpyDeviceToHost);
+    CALI_MARK_END(cuda_Memcpy);
     CALI_MARK_END(comm_large);
     CALI_MARK_END(comm);
 
@@ -149,8 +190,24 @@ int main(int argc, char *argv[])
     adiak::value("Datatype", "float"); // The datatype of input elements (e.g., double, int, float)
     adiak::value("SizeOfDatatype", sizeof(float)); // sizeof(datatype) of input elements in bytes (e.g., 1, 2, 4)
     adiak::value("InputSize", NUM_VALS); // The number of elements in input dataset (1000)
-    adiak::value("InputType", "Random"); // For sorting, this would be "Sorted", "ReverseSorted", "Random", "1%perturbed"
-    adiak::value("num_procs", THREADS); // The number of processors (MPI ranks)
+    switch (sorting) {
+      case 0:
+        adiak::value("InputType", "Random");
+        break;
+      case 1:
+        adiak::value("InputType", "Sorted");
+        break;
+      case 2:
+        adiak::value("InputType", "ReverseSorted");
+        break;
+      case 3:
+        adiak::value("InputType", "1%perturbed");
+        break;
+      default:
+        adiak::value("InputType", "Random");
+     }
+    //adiak::value("InputType", "Random"); // For sorting, this would be "Sorted", "ReverseSorted", "Random", "1%perturbed"
+    adiak::value("num_procs", 1); // The number of processors (MPI ranks)
     adiak::value("num_threads", THREADS); // The number of CUDA or OpenMP threads
     adiak::value("num_blocks", BLOCKS); // The number of CUDA blocks 
     adiak::value("group_num", 20); // The number of your group (integer, e.g., 1, 10)
