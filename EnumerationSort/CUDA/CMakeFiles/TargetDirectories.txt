@@ -1,3 +1,0 @@
-/scratch/user/shuruixu/CSCE435_Project/Project/Builds/CUDA/CMakeFiles/rebuild_cache.dir
-/scratch/user/shuruixu/CSCE435_Project/Project/Builds/CUDA/CMakeFiles/enumeration.dir
-/scratch/user/shuruixu/CSCE435_Project/Project/Builds/CUDA/CMakeFiles/edit_cache.dir
