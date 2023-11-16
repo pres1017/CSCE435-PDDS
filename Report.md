@@ -294,6 +294,7 @@ void bitonic_sort(values)
 ```
 
 ![Alt text](bitonic_sort_images/cuda_655.png)
+![Alt text](bitonic_sort_images/cuda_1048.png)
 
 Bitonic Sort MPI 
 
@@ -363,6 +364,9 @@ exchange(d, sizeBatch, partner) {
 }
 
 ```
+
+![Alt text](bitonic_sort_images/mpi_655.png)
+![Alt text](bitonic_sort_images/mpi_1048.png)
 
 MERGESORT MPI
 ```
