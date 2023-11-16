@@ -14,7 +14,7 @@
 #include <caliper/cali-manager.h>
 #include <adiak.hpp>
 
-const char* main = "main";
+const char* whole = "whole";
 const char* data_init = "data_init";
 const char* correctness_check = "correctness_check";
 const char* comm = "comm";
@@ -81,35 +81,69 @@ void mergeSort(int arr[], int l, int r) {
     CALI_MARK_END("comp_large");
 }
 
-float randomFloat(int a, int b)
-{
-    if (a > b)
-        return randomFloat(b, a);
-    if (a == b)
-        return a;
- 
-    return (float)randomInt(a, b) + randomFloat();
-}
 
 int main(int argc, char** argv) {
     MPI_Init(&argc, &argv);
-    CALI_MARK_BEGIN(main);
+    CALI_MARK_BEGIN(whole);
 
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    std::string arg = argv[1];
-    const int n = std::stoi(arg);
-    float array[n];
+    std::string numVals = argv[1];
+    const int n = std::stoi(numVals);
+    
+    std::string type = argv[2];
+    const int input = std::stoi(type);
+    
+    std::string processes = argv[3];
+    const int numProcesses = std::stoi(processes);
+    
+
+    int array[n];
     srand(time(NULL));
+    
     if (rank == 0) {
-        std::cout << "Original array: ";
-        for (int i = 0; i < n; i++) {
-            array[i] = randomFloat(1, 1000);
-            std::cout << array[i] << " ";
+    
+      if(input == 0 || input == 3){
+        for (int i = 0; i < n; i++){
+          array[i] = i;
         }
-        std::cout << std::endl;
+        type = "Sorted";
+      }
+        
+      if(input == 1){
+        for(int i = 0; i < n; i++){
+          array[i] = rand() % 100000;
+        }
+        type = "Random";
+      }
+      
+      if(input == 2){
+        for(int i = 0; i < n; i++){
+          array[i] = n - i;
+        }
+        type = "Reverse Sorted";
+      }
+      
+      if(input == 3){
+        for(int i = 0; i < n; i++){
+          int chance = rand() % 100;
+          int randIndex = rand() % n;
+          if(chance <= 1){
+            int tempVal = array[i];
+            array[i] = array[randIndex];
+            array[randIndex] = array[i];
+          }
+          type = "1%perturbed";
+        }
+      }
+      /*
+      for (int i = 0; i < n; i++) {
+          std::cout << array[i] << " ";
+      }
+      std::cout << std::endl;
+      */
     }
 
     cali::ConfigManager mgr;
@@ -141,13 +175,13 @@ int main(int argc, char** argv) {
                 printf("Not sorted\n");
                 break;
             }
-            std::cout << array[i - 1] << " ";
+            // std::cout << array[i - 1] << " ";
         }
         std::cout << std::endl;
     }
     CALI_MARK_END(data_validation);
 
-    CALI_MARK_END(main);
+    CALI_MARK_END(whole);
 
     adiak::init(NULL);
     adiak::launchdate();    // launch date of the job
@@ -157,9 +191,9 @@ int main(int argc, char** argv) {
     adiak::value("Algorithm", "MergeSort"); // The name of the algorithm you are using (e.g., "MergeSort", "BitonicSort")
     adiak::value("ProgrammingModel", "MPI"); // e.g., "MPI", "CUDA", "MPIwithCUDA"
     adiak::value("Datatype", "float"); // The datatype of input elements (e.g., double, int, float)
-    adiak::value("SizeOfDatatype", sizeof(float)); // sizeof(datatype) of input elements in bytes (e.g., 1, 2, 4)
+    adiak::value("SizeOfDatatype", sizeof(int)); // sizeof(datatype) of input elements in bytes (e.g., 1, 2, 4)
     adiak::value("InputSize", n); // The number of elements in input dataset (1000)
-    adiak::value("InputType", "Random"); // For sorting, this would be "Sorted", "ReverseSorted", "Random", "1%perturbed"
+    adiak::value("InputType", type); // For sorting, this would be "Sorted", "ReverseSorted", "Random", "1%perturbed"
     adiak::value("num_procs", size); // The number of processors (MPI ranks)
     adiak::value("num_threads", 0); // The number of CUDA or OpenMP threads
     adiak::value("num_blocks", 0); // The number of CUDA blocks 
