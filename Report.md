@@ -291,9 +291,7 @@ void bitonic_sort(values)
 
 ```
 
-![Alt text](bitonic_sort_images/cuda_655.png)
 
-![Alt text](bitonic_sort_images/cuda_1048.png)
 
 Bitonic Sort MPI 
 
@@ -364,9 +362,7 @@ exchange(d, sizeBatch, partner) {
 
 ```
 
-![Alt text](bitonic_sort_images/mpi_655.png)
 
-![Alt text](bitonic_sort_images/mpi_1048.png)
 
 MERGESORT MPI
 ```
@@ -499,6 +495,18 @@ The MPI implementation of the Odd-even Sort contains a lot of overhead. Because 
 The CUDA implementation of the Odd-even sort, on the other hand, performs way better than the MPI. Because threads share memory, there is no need to explicitly send or receive data. This is also backed by the graph below. The time of main is much lower than the MPI implementation and seems to improve as we increase the number of threads.
 
 ![Alt text](OddEven/CUDA/cuda_main.png)
+
+### Bitonic Sort - Rahul Kumar
+
+![Alt text](bitonic_sort_images/cuda_655.png)
+
+![Alt text](bitonic_sort_images/cuda_1048.png)
+
+![Alt text](bitonic_sort_images/mpi_655.png)
+
+![Alt text](bitonic_sort_images/mpi_1048.png)
+
+
 
 
 
