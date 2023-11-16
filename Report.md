@@ -480,4 +480,17 @@ As for CUDA, the increase in threads (while the input size stays constant) did n
 
 Due to the bugs I have introduced, there is currently no speedup, unless more nodes are introduced for MPI. Weak scaling or strong scaling is not apparent in the current implementation of the Enumeration sort.
 
+### Merge Sort - Preston Malaer
+
+The current implementation of MergeSort in MPI is incredibly inefficient, suggesting either an issue with the implementation itself or the way I'm running it. The more processes that are added, the worse my implementation performs.
+
+![MergeSort MPI Graph](MergeSort/mpiGraph.png)
+
+The MergeSort implementation of CUDA similarly saw no benefits from parallelism. Performance stayed the same, regardless of how many threads were added. Once again, this suggests either an issue with the implementation itself or the way the hardware was being utilized. 
+
+![MergeSort CUDA Graph](MergeSort/cudaGraph.png)
+
+
+
+
 
