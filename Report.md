@@ -288,8 +288,6 @@ void bitonic_sort(values)
   cudaEventDestroy(start);
   cudaEventDestroy(stop);
 }
-<img width="528" alt="Screenshot 2023-11-15 at 9 01 36 PM" src="https://github.com/pres1017/CSCE435-PDDS/assets/21116648/769a5711-8f60-4c36-901c-12728ab0b029">
-
 
 ```
 
