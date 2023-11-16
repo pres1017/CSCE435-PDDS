@@ -293,6 +293,8 @@ void bitonic_sort(values)
 
 ```
 
+![Alt text](bitonic_sort_images/cuda_655.png)
+
 Bitonic Sort MPI 
 
 ```
