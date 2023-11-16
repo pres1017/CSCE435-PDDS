@@ -1,0 +1,47 @@
+[1700101609.618106] [c636:17396:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.618489] [c636:17413:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.618684] [c636:17388:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.618846] [c636:17399:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.619064] [c636:17408:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.619336] [c636:17398:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.619795] [c636:17393:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.620290] [c636:17404:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.620502] [c636:17394:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.620826] [c636:17405:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.621081] [c636:17361:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.621529] [c636:17403:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.623032] [c636:17389:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.623238] [c636:17358:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.623392] [c636:17376:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.625151] [c636:17359:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.629580] [c636:17417:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.629814] [c636:17412:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.631179] [c636:17371:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.634183] [c636:17357:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.634389] [c636:17364:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.634989] [c636:17373:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.635186] [c636:17375:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.635339] [c636:17377:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.635489] [c636:17362:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.635648] [c636:17374:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.635798] [c636:17387:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.636872] [c636:17419:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.640325] [c636:17380:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.642663] [c636:17414:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.659610] [c636:17381:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.662964] [c636:17385:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.666864] [c636:17356:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.667882] [c636:17368:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.680884] [c636:17378:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.681484] [c636:17407:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.681696] [c636:17401:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.681875] [c636:17390:0]        dc_mlx5.c:330  UCX  ERROR mlx5dv_create_qp(mlx5_0:1, DCI): failed: Cannot allocate memory
+[1700101609.697509] [c636:17372:0]       ib_iface.c:914  UCX  ERROR iface=0x84baa0: failed to create RC QP TX wr:256 sge:3 inl:64 resp:64 RX wr:0 sge:1 resp:64: Cannot allocate memory
+[1700101609.701216] [c636:17382:0]       ib_iface.c:914  UCX  ERROR iface=0x1afbaa0: failed to create RC QP TX wr:256 sge:3 inl:64 resp:64 RX wr:0 sge:1 resp:64: Cannot allocate memory
+[1700101609.701415] [c636:17402:0]       ib_iface.c:914  UCX  ERROR iface=0x8f3aa0: failed to create RC QP TX wr:256 sge:3 inl:64 resp:64 RX wr:0 sge:1 resp:64: Cannot allocate memory
+[1700101609.704597] [c636:17409:0]       ib_iface.c:914  UCX  ERROR iface=0x868aa0: failed to create RC QP TX wr:256 sge:3 inl:64 resp:64 RX wr:0 sge:1 resp:64: Cannot allocate memory
+Abort(1615503) on node 52 (rank 52 in comm 0): Fatal error in PMPI_Init: Other MPI error, error stack:
+MPIR_Init_thread(136)........: 
+MPID_Init(1149)..............: 
+MPIDI_OFI_mpi_init_hook(1555): 
+create_endpoint(2199)........: OFI endpoint open failed (ofi_init.c:2199:create_endpoint:Input/output error)

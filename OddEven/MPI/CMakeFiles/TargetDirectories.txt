@@ -1,0 +1,3 @@
+/scratch/user/darmenta258/Builds/MPI/CMakeFiles/rebuild_cache.dir
+/scratch/user/darmenta258/Builds/MPI/CMakeFiles/edit_cache.dir
+/scratch/user/darmenta258/Builds/MPI/CMakeFiles/bubble.dir
