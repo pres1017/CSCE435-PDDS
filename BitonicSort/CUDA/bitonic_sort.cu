@@ -229,8 +229,7 @@ void bitonic_sort(float *values)
 
 int main(int argc, char *argv[])
 {
-  CALI_MARK_BEGIN("main");
-
+  CALI_CXX_MARK_FUNCTION;
   THREADS = atoi(argv[1]);
   NUM_VALS = atoi(argv[2]);
   BLOCKS = NUM_VALS / THREADS;
@@ -254,25 +253,8 @@ int main(int argc, char *argv[])
   stop = clock();
 
   print_elapsed(start, stop);
-  correctness_check(values, NUM_VALS)
+  correctness_check(values, NUM_VALS);
 
-  // Store results in these variables.
-  float effective_bandwidth_gb_s;
-  float bitonic_sort_step_time = bitonic_sort_step_time_calculated;
-  float cudaMemcpy_host_to_device_time = cudaMemcpy_host_to_device_time_calculated;
-  float cudaMemcpy_device_to_host_time = cudaMemcpy_device_to_host_time_calculated;
-
-  float RB = (float)kernel_calls * NUM_VALS * 2 * sizeof(float);
-  float WB = (float)kernel_calls * NUM_VALS * 2 * sizeof(float); 
-
-  float elapsed_time_in_seconds = bitonic_sort_step_time_calculated / 1000.0f;
-  effective_bandwidth_gb_s = (RB + WB) / (elapsed_time_in_seconds * 1e9);
-
-
-  printf("bitonic_sort_step_time: %f\n", bitonic_sort_step_time_calculated);
-  printf("cudaMemcpy_host_to_device_time: %f\n", cudaMemcpy_host_to_device_time_calculated);
-  printf("cudaMemcpy_device_to_host_time: %f\n", cudaMemcpy_device_to_host_time_calculated);
-  printf("effective_bandwidth_gb_s: %f\n", effective_bandwidth_gb_s);
 
 
   // Adiak metadata collection
@@ -287,13 +269,12 @@ int main(int argc, char *argv[])
     adiak::value("SizeOfDatatype", sizeof(float));
     adiak::value("InputSize", NUM_VALS);
     adiak::value("InputType", "Random");
-    adiak::value("num_procs", 1); 
+    adiak::value("num_procs", THREADS); 
     adiak::value("num_threads", THREADS);
     adiak::value("num_blocks", BLOCKS);
-    adiak::value("group_num", 1); 
-    adiak::value("implementation_source", "Handwritten"); 
+    adiak::value("group_num", 20); 
+    adiak::value("implementation_source", "Online"); 
 
-    CALI_MARK_END("main");
 
   // Flush Caliper output before finalizing MPI
   mgr.stop();
