@@ -490,6 +490,14 @@ The MergeSort implementation of CUDA similarly saw no benefits from parallelism.
 
 ![MergeSort CUDA Graph](MergeSort/cudaGraph.png)
 
+### Odd-even Sort - Daniel Armenta
+
+The MPI implementation of the Odd-even Sort contains a lot of overhead. Because processes do not share memory, they have to send/receive between each other at every odd-even step. According to the graph, this overhead gets worst as the number of processes increases. 
+
+
+
+The CUDA implementation of the Odd-even sort, on the other hand, performs way better than the MPI. Because threads share memory, there is no need to explicitly send or receive data. This is also backed by the graph below. The time of main is much lower than the MPI implementation and seems to improve as we increase the number of threads.
+
 
 
 
