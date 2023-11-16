@@ -462,10 +462,10 @@ Please see GitHub branches for algorithm implementations and Caliper files.
 ### Enumeration Sort - Shurui Xu
 From the current implementations of Enumeration Sort, there is inefficiency introduced in a lot of places. 
 For MPI, the average time for running each procs stays constant even when increasing the procs count while the input size stays constant. However, there is a noticeable drop runtime when 2 nodes are requested instead of 1. The performance of 2 nodes is twice that of 1 node, regardless of the number of procs. There is most likely a problem in the way I am currently submitting the job files. I will look into the problem once Grace is fixed due to the faulty nodes.
-![Alt text](URL)
+![Alt text](EnumerationSort/Enumeration_MPI_comp_large.png)
 
 As for CUDA, the increase in threads (while the input size stays constant) did not seem to decrease the computation time by much. This is due to the inefficiencies of the enumeration sort algorithm, making it use a lot of memory and not a lot of processing power. 
-![Alt text](URL)
+![Alt text](EnumerationSort/Enumeration_CUDA_comp.png)
 
 Due to the bugs I have introduced, there is currently no speedup, unless more nodes are introduced for MPI. 
 
