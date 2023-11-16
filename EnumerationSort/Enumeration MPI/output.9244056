@@ -1,0 +1,15 @@
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   RANK 0 PID 43785 RUNNING AT c454
+=   KILLED BY SIGNAL: 15 (Terminated)
+===================================================================================
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   RANK 1 PID 43786 RUNNING AT c454
+=   KILLED BY SIGNAL: 15 (Terminated)
+===================================================================================
+slurmstepd: error: *** STEP 9244056.0 ON c454 CANCELLED AT 2023-11-14T16:37:31 ***
+slurmstepd: error: *** JOB 9244056 ON c454 CANCELLED AT 2023-11-14T16:37:31 ***
