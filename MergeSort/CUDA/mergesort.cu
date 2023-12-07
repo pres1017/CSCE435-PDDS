@@ -7,7 +7,6 @@
 #include <caliper/cali-manager.h>
 #include <adiak.hpp>
 
-const char* whole = "whole";
 const char* data_init = "data_init";
 const char* correctness_check = "correctness_check";
 const char* comm = "comm";
@@ -106,7 +105,11 @@ void gpu_mergesort(float *source, float *dest, int array_size, int num_processes
 
     // Copy the host input data to the device
     CALI_MARK_BEGIN(comm);
+    CALI_MARK_BEGIN(comm_large);
+    CALI_MARK_BEGIN(comm_small);
     cudaMemcpy(d_source, source, size, cudaMemcpyHostToDevice);
+    CALI_MARK_BEGIN(comm_small);
+    CALI_MARK_BEGIN(comm_large);
     CALI_MARK_END(comm);
 
     // Loop over width and slices
@@ -136,6 +139,8 @@ int main(int argc, char** argv)
 {
     CALI_CXX_MARK_FUNCTION;
     cali::ConfigManager mgr;
+    const char* main = "main";
+    CALI_MARK_BEGIN(main);
     mgr.start();
     // Initialize random number generator
     srand(time(NULL));
@@ -167,7 +172,7 @@ int main(int argc, char** argv)
     
     if(input == 1){
       for(int i=0; i<array_size; i++){
-          h_array[i] = ((float)rand()/(float)RAND_MAX) * 1000.0;
+          h_array[i] = ((float)rand()/(float)RAND_MAX) * 1000000.0;
       }
       inputType = "Random";
     }
@@ -199,20 +204,29 @@ int main(int argc, char** argv)
     float *h_sorted = (float*) malloc(array_size * sizeof(float));
 
     // Call the GPU merge sort function
+    CALI_MARK_BEGIN(comp);
+    CALI_MARK_BEGIN(comp_large);
     gpu_mergesort(h_array, h_sorted, array_size, numProcesses);
+    CALI_MARK_END(comp_large);
+    CALI_MARK_END(comp);
 
     // Print the sorted array
-    CALI_MARK_BEGIN(data_validation);
+    CALI_MARK_BEGIN(correctness_check);
     mergeSort(h_sorted, 0, array_size - 1); // sequentially merging the collected subarrays 
-    /*
-    for(int i=0; i<array_size; i++){
-        printf("%f ", h_sorted[i]);
-    
+    bool isSorted = true;
+    for(int i=0; i<array_size - 1; i++){
+        if(h_array[i + 1] < h_array[i]){
+          isSorted = false;        
+        }
     }
-    */
+    if(isSorted){
+      printf("Sorted");
+    }else{
+      printf("Not sorted");
+    }
     printf("\n");
-    CALI_MARK_END(data_validation);
-
+    CALI_MARK_END(correctness_check);
+    CALI_MARK_END(main);
     int slices = array_size/(2);
     int nBlocks = slices/numProcesses + ((slices%numProcesses)?1:0);
     // Free the host memory

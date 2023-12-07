@@ -1,12 +1,6 @@
-/*
-*
-* ChatGPT was used for help with MPI debugging. 
-*
-*/
-
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <string>
 #include <mpi.h>
 
@@ -14,7 +8,12 @@
 #include <caliper/cali-manager.h>
 #include <adiak.hpp>
 
-const char* whole = "whole";
+/**********************
+*
+* Source Code: https://github.com/racorretjer/Parallel-Merge-Sort-with-MPI/blob/master/merge-mpi.c 
+*
+**********************/
+
 const char* data_init = "data_init";
 const char* correctness_check = "correctness_check";
 const char* comm = "comm";
@@ -23,105 +22,43 @@ const char* comm_small = "comm_small";
 const char* comp = "comp";
 const char* comp_large = "comp_large";
 const char* comp_small = "comp_small";
-const char* data_validation = "data_validation";
-
-// Function to merge two subarrays
-void merge(int arr[], int l, int m, int r) {
-    CALI_MARK_BEGIN(comp_small);
-    int i, j, k;
-    int n1 = m - l + 1;
-    int n2 =  r - m;
-
-    int L[n1], R[n2];
-
-    for (i = 0; i < n1; i++)
-        L[i] = arr[l + i];
-    for (j = 0; j < n2; j++)
-        R[j] = arr[m + 1+ j];
-
-    i = 0;
-    j = 0;
-    k = l;
-    while (i < n1 && j < n2) {
-        if (L[i] <= R[j]) {
-            arr[k] = L[i];
-            i++;
-        } else {
-            arr[k] = R[j];
-            j++;
-        }
-        k++;
-    }
-
-    while (i < n1) {
-        arr[k] = L[i];
-        i++;
-        k++;
-    }
-
-    while (j < n2) {
-        arr[k] = R[j];
-        j++;
-        k++;
-    }
-    CALI_MARK_END(comp_small);
-}
-
-// Function to perform merge sort
-void mergeSort(int arr[], int l, int r) {
-    CALI_MARK_BEGIN("comp_large");
-    if (l < r) {
-        int m = l+(r-l)/2;
-
-        mergeSort(arr, l, m);
-        mergeSort(arr, m+1, r);
-
-        merge(arr, l, m, r);
-    }
-    CALI_MARK_END("comp_large");
-}
 
 
 int main(int argc, char** argv) {
-    MPI_Init(&argc, &argv);
-    CALI_MARK_BEGIN(whole);
+  const char* main = "main";
+  cali::ConfigManager mgr;
+  mgr.start();
+    
+	CALI_MARK_BEGIN(main);
 
-    int rank, size;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    MPI_Comm_size(MPI_COMM_WORLD, &size);
-
-    std::string numVals = argv[1];
-    const int n = std::stoi(numVals);
-    
-    std::string type = argv[2];
-    const int input = std::stoi(type);
-    
-    std::string processes = argv[3];
-    const int numProcesses = std::stoi(processes);
-    
-
-    int array[n];
-    srand(time(NULL));
-    
-    if (rank == 0) {
-    
+	int n = atoi(argv[1]);
+	int *original_array = (int*)malloc(n * sizeof(int));
+ 
+  int input = atoi(argv[2]);
+  std::string type = "";  
+  
+  int numProcs = atoi(argv[3]);      
+	
+	int c;
+	srand(time(NULL));
+  CALI_MARK_BEGIN(data_init);
       if(input == 0 || input == 3){
         for (int i = 0; i < n; i++){
-          array[i] = i;
+          original_array[i] = i;
         }
         type = "Sorted";
       }
         
       if(input == 1){
         for(int i = 0; i < n; i++){
-          array[i] = rand() % 100000;
+          original_array[i] = rand() % 100000;
         }
         type = "Random";
       }
       
       if(input == 2){
         for(int i = 0; i < n; i++){
-          array[i] = n - i;
+          original_array[i] = n - i;
         }
         type = "Reverse Sorted";
       }
@@ -131,77 +68,183 @@ int main(int argc, char** argv) {
           int chance = rand() % 100;
           int randIndex = rand() % n;
           if(chance <= 1){
-            int tempVal = array[i];
-            array[i] = array[randIndex];
-            array[randIndex] = array[i];
+            int tempVal = original_array[i];
+            original_array[i] = original_array[randIndex];
+            original_array[randIndex] = tempVal;
           }
           type = "1%perturbed";
         }
       }
-      /*
-      for (int i = 0; i < n; i++) {
-          std::cout << array[i] << " ";
-      }
-      std::cout << std::endl;
-      */
-    }
 
-    cali::ConfigManager mgr;
-    mgr.start();
+  CALI_MARK_END(data_init);
+  
+	
+	int world_rank;
+	int world_size;
+	
+	MPI_Init(&argc, &argv);
+	MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+	MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+		
+	int size = n/world_size;
 
-    MPI_Bcast(array, n, MPI_INT, 0, MPI_COMM_WORLD);
+	int *sub_array = (int*)malloc(size * sizeof(int));
+  CALI_MARK_BEGIN(comm);
+  CALI_MARK_BEGIN(comm_large);
+  CALI_MARK_BEGIN(comm_small);
+	MPI_Scatter(original_array, size, MPI_INT, sub_array, size, MPI_INT, 0, MPI_COMM_WORLD);
+  CALI_MARK_END(comm_small);
+  CALI_MARK_END(comm_large);
+  CALI_MARK_END(comm);
 
-    int local_n = n / size;
-    int local_array[local_n];
+  CALI_MARK_BEGIN(comp);
+  CALI_MARK_BEGIN(comp_large);
+	int *tmp_array = (int*)malloc(size * sizeof(int));
+	mergeSort(sub_array, tmp_array, 0, (size - 1));
+  CALI_MARK_END(comp_large);
+  CALI_MARK_END(comp);
 
-    CALI_MARK_BEGIN(comm);
-    CALI_MARK_BEGIN(comm_large);
-    MPI_Scatter(array, local_n, MPI_INT, local_array, local_n, MPI_INT, 0, MPI_COMM_WORLD);
-    CALI_MARK_END(comm_large);
-    CALI_MARK_END(comm);
-
-    CALI_MARK_BEGIN(comp);
-    mergeSort(local_array, 0, local_n - 1);
+	int *sorted = NULL;
+	if(world_rank == 0) {
+		
+		sorted = (int*)malloc(n * sizeof(int));
+		
+		}
+	
+	MPI_Gather(sub_array, size, MPI_INT, sorted, size, MPI_INT, 0, MPI_COMM_WORLD);
+	
+	if(world_rank == 0) {
+		
+		int *other_array = (int*)malloc(n * sizeof(int));
+		mergeSort(sorted, other_array, 0, (n - 1));
     CALI_MARK_END(comp);
-
-    MPI_Gather(local_array, local_n, MPI_INT, array, local_n, MPI_INT, 0, MPI_COMM_WORLD);
-
-    CALI_MARK_BEGIN(data_validation);
-    if (rank == 0) {
-        mergeSort(array, 0, n - 1);
-        std::cout << "Sorted array: ";
-        for (int i = 1; i <= n; i++) {
-            if(i != n && array[i] < array[i - 1]){
-                printf("Not sorted\n");
-                break;
-            }
-            // std::cout << array[i - 1] << " ";
-        }
-        std::cout << std::endl;
+		
+    bool isSorted = true;
+    CALI_MARK_BEGIN(correctness_check);
+		printf("This is the sorted array: ");
+		for(c = 0; c < n - 1; c++) {
+      if(original_array[c + 1] < original_array[c]){
+        isSorted = false;
+      }   
+		}
+   
+    if(isSorted){
+      printf("sorted");
+    }else{
+      printf("not sorted");
     }
-    CALI_MARK_END(data_validation);
+	  CALI_MARK_END(correctness_check);
+		printf("\n");
+		printf("\n");
+			
+		free(sorted);
+		free(other_array);
+			
+		}
+	
 
-    CALI_MARK_END(whole);
+	free(original_array);
+	free(sub_array);
+	free(tmp_array);
 
-    adiak::init(NULL);
-    adiak::launchdate();    // launch date of the job
-    adiak::libraries();     // Libraries used
-    adiak::cmdline();       // Command line used to launch the job
-    adiak::clustername();   // Name of the cluster
-    adiak::value("Algorithm", "MergeSort"); // The name of the algorithm you are using (e.g., "MergeSort", "BitonicSort")
-    adiak::value("ProgrammingModel", "MPI"); // e.g., "MPI", "CUDA", "MPIwithCUDA"
-    adiak::value("Datatype", "float"); // The datatype of input elements (e.g., double, int, float)
-    adiak::value("SizeOfDatatype", sizeof(int)); // sizeof(datatype) of input elements in bytes (e.g., 1, 2, 4)
-    adiak::value("InputSize", n); // The number of elements in input dataset (1000)
-    adiak::value("InputType", type); // For sorting, this would be "Sorted", "ReverseSorted", "Random", "1%perturbed"
-    adiak::value("num_procs", size); // The number of processors (MPI ranks)
-    adiak::value("num_threads", 0); // The number of CUDA or OpenMP threads
-    adiak::value("num_blocks", 0); // The number of CUDA blocks 
-    adiak::value("group_num", 20); // The number of your group (integer, e.g., 1, 10)
-    adiak::value("implementation_source", "AI"); // Where you got the source code of your algorithm; choices: ("Online", "AI", "Handwritten").
+	MPI_Barrier(MPI_COMM_WORLD);
+ 
+  adiak::init(NULL);
+  adiak::launchdate();    // launch date of the job
+  adiak::libraries();     // Libraries used
+  adiak::cmdline();       // Command line used to launch the job
+  adiak::clustername();   // Name of the cluster
+  adiak::value("Algorithm", "MergeSort"); // The name of the algorithm you are using (e.g., "MergeSort", "BitonicSort")
+  adiak::value("ProgrammingModel", "MPI"); // e.g., "MPI", "CUDA", "MPIwithCUDA"
+  adiak::value("Datatype", "float"); // The datatype of input elements (e.g., double, int, float)
+  adiak::value("SizeOfDatatype", sizeof(int)); // sizeof(datatype) of input elements in bytes (e.g., 1, 2, 4)
+  adiak::value("InputSize", n); // The number of elements in input dataset (1000)
+  adiak::value("InputType", type); // For sorting, this would be "Sorted", "ReverseSorted", "Random", "1%perturbed"
+  adiak::value("num_procs", numProcs); // The number of processors (MPI ranks)
+  adiak::value("num_threads", 0); // The number of CUDA or OpenMP threads
+  adiak::value("num_blocks", 0); // The number of CUDA blocks 
+  adiak::value("group_num", 20); // The number of your group (integer, e.g., 1, 10)
+  adiak::value("implementation_source", "Online"); // Where you got the source code of your algorithm; choices: ("Online", "AI", "Handwritten").
+  
+  CALI_MARK_END(main);
 
-    mgr.stop();
-    mgr.flush();
+  mgr.stop();
+  mgr.flush();
 
-    MPI_Finalize();
-}
+	MPI_Finalize();
+	
+	}
+
+void merge(int *a, int *b, int l, int m, int r) {
+  
+	int h, i, j, k;
+	h = l;
+	i = l;
+	j = m + 1;
+	
+	while((h <= m) && (j <= r)) {
+		
+		if(a[h] <= a[j]) {
+			
+			b[i] = a[h];
+			h++;
+			
+			}
+			
+		else {
+			
+			b[i] = a[j];
+			j++;
+			
+			}
+			
+		i++;
+		
+		}
+		
+	if(m < h) {
+		
+		for(k = j; k <= r; k++) {
+			
+			b[i] = a[k];
+			i++;
+			
+			}
+			
+		}
+		
+	else {
+		
+		for(k = h; k <= m; k++) {
+			
+			b[i] = a[k];
+			i++;
+			
+			}
+			
+		}
+		
+	for(k = l; k <= r; k++) {
+		
+		a[k] = b[k];
+		
+		}
+   
+	}
+
+
+void mergeSort(int *a, int *b, int l, int r) {
+	
+	int m;
+	
+	if(l < r) {
+		
+		m = (l + r)/2;
+		
+		mergeSort(a, b, l, m);
+		mergeSort(a, b, (m + 1), r);
+		merge(a, b, l, m, r);
+		
+		}
+		
+	}
