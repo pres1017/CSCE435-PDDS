@@ -576,5 +576,60 @@ In terms of speedup, we can see that the 2^18 input size is having large speedup
 ### CUDA - Strong Scaling
 
 ![Alt text](bitonic_sort_images/strong-cuda/1.png)
+![Alt text](bitonic_sort_images/strong-cuda/2.png)
+![Alt text](bitonic_sort_images/strong-cuda/3.png)
+![Alt text](bitonic_sort_images/strong-cuda/4.png)
+![Alt text](bitonic_sort_images/strong-cuda/5.png)
+![Alt text](bitonic_sort_images/strong-cuda/6.png)
+![Alt text](bitonic_sort_images/strong-cuda/7.png)
+![Alt text](bitonic_sort_images/strong-cuda/8.png)
+![Alt text](bitonic_sort_images/strong-cuda/9.png)
+![Alt text](bitonic_sort_images/strong-cuda/10.png)
+![Alt text](bitonic_sort_images/strong-cuda/11.png)
+![Alt text](bitonic_sort_images/strong-cuda/12.png)
+![Alt text](bitonic_sort_images/strong-cuda/13.png)
+![Alt text](bitonic_sort_images/strong-cuda/14.png)
 
 
+### CUDA - Weak Scaling
+
+![Alt text](bitonic_sort_images/weak-cuda/1.png)
+![Alt text](bitonic_sort_images/weak-cuda/2.png)
+![Alt text](bitonic_sort_images/weak-cuda/3.png)
+![Alt text](bitonic_sort_images/weak-cuda/4.png)
+![Alt text](bitonic_sort_images/weak-cuda/5.png)
+![Alt text](bitonic_sort_images/weak-cuda/6.png)
+
+### CUDA - Strong Scaling Speedup
+
+![Alt text](bitonic_sort_images/speedup-cuda/1.png)
+![Alt text](bitonic_sort_images/speedup-cuda/2.png)
+![Alt text](bitonic_sort_images/speedup-cuda/3.png)
+![Alt text](bitonic_sort_images/speedup-cuda/4.png)
+![Alt text](bitonic_sort_images/speedup-cuda/5.png)
+![Alt text](bitonic_sort_images/speedup-cuda/6.png)
+![Alt text](bitonic_sort_images/speedup-cuda/7.png)
+![Alt text](bitonic_sort_images/speedup-cuda/8.png)
+![Alt text](bitonic_sort_images/speedup-cuda/9.png)
+![Alt text](bitonic_sort_images/speedup-cuda/10.png)
+
+### MPI - Strong Scaling
+
+![Alt text](bitonic_sort_images/strong-mpi/1.png)
+![Alt text](bitonic_sort_images/strong-mpi/2.png)
+![Alt text](bitonic_sort_images/strong-mpi/3.png)
+![Alt text](bitonic_sort_images/strong-mpi/4.png)
+![Alt text](bitonic_sort_images/strong-mpi/5.png)
+
+### MPI - Weak Scaling
+![Alt text](bitonic_sort_images/weak-mpi/1.png)
+![Alt text](bitonic_sort_images/weak-mpi/2.png)
+![Alt text](bitonic_sort_images/weak-mpi/3.png)
+![Alt text](bitonic_sort_images/weak-mpi/4.png)
+
+### MPI - Strong Scaling Speedup
+![Alt text](bitonic_sort_images/speedup-mpi/1.png)
+![Alt text](bitonic_sort_images/speedup-mpi/2.png)
+![Alt text](bitonic_sort_images/speedup-mpi/3.png)
+![Alt text](bitonic_sort_images/speedup-mpi/4.png)
+![Alt text](bitonic_sort_images/speedup-mpi/5.png)
