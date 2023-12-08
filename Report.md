@@ -511,4 +511,24 @@ The CUDA implementation of the Odd-even sort, on the other hand, performs way be
 ### Bitonic Sort - Rahul Kumar
 
 
+Weak Scaling - CUDA
+![Alt text](bitonic_sort_images/comp-weak.png)
+
+Strong Scaling - CUDA
+![Alt text](bitonic_sort_images/comm-strong.png)
+![Alt text](bitonic_sort_images/comp-strong.png)
+
+Speedup - CUDA
+![Alt text](bitonic_sort_images/comp-speedup.png)
+
+Weak Scaling - MPI
+![Alt text](bitonic_sort_images/comp-weak-mpi.png)
+
+Strong Scaling - MPI
+![Alt text](bitonic_sort_images/comp-strong-mpi.png)
+
+Speedup - MPI
+![Alt text](bitonic_sort_images/comm-large-speedup-mpi.png)
+
+
 
