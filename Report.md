@@ -546,6 +546,7 @@ Speedup - CUDA
 
 ![Alt text](bitonic_sort_images/comp-speedup.png)
 
+
 As for the speedup, we can see a substainial effect in the beginning for the large input size. This is probably due to the fact that the initial exponential effect on the threads is having a large effect on runtime. We can see it tapering off as we add more threads. It also starts to decrease, which could mean that the excessive parallelism can lead to wasted computation.
 
 Weak Scaling - MPI
@@ -553,15 +554,23 @@ Weak Scaling - MPI
 
 ![Alt text](bitonic_sort_images/comp-weak-mpi.png)
 
+For the weak scaling of the MPI, we can see that the computation for all thread sizes is increasing with an increasing input size, showcasing theat the weak scaling is inefficent and is leading to overhead. 
+
 Strong Scaling - MPI
 
 
 ![Alt text](bitonic_sort_images/comp-strong-mpi.png)
 
+
+For the computation of strong scaling, we can see that all input sizes are reducing their runtime based on the increasing amount of processes, meaning that the MPI processes are efficently utilizing the parallel abilities to its advantage.
+
 Speedup - MPI
 
 
 ![Alt text](bitonic_sort_images/comm-large-speedup-mpi.png)
+
+
+In terms of speedup, we can see that the 2^18 input size is having large speedup in the beginning when processess are added. The speedup seems to reducing as we add more processess, meaning that excessive parallelism is unnecessary for this calculation.
 
 
 
