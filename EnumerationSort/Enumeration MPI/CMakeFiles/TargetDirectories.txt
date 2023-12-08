@@ -1,3 +1,0 @@
-/scratch/user/shuruixu/CSCE435_Project/Project/Builds/MPI/CMakeFiles/rebuild_cache.dir
-/scratch/user/shuruixu/CSCE435_Project/Project/Builds/MPI/CMakeFiles/edit_cache.dir
-/scratch/user/shuruixu/CSCE435_Project/Project/Builds/MPI/CMakeFiles/enumeration_sort.dir
