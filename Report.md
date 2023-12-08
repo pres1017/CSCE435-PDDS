@@ -524,17 +524,29 @@ Weak Scaling - CUDA
 
 ![Alt text](bitonic_sort_images/comp-weak.png)
 
+
+As seen in the weak scaling of CUDA, we can see that the Avg time / rank increases by the inputSize for a Randomized array, regardless of the threads present. This is probably due to the inefficency of weak scaling, and not properly utilizing the parallel ability of the cluster.
+
+
 Strong Scaling - CUDA
 
 
 ![Alt text](bitonic_sort_images/comm-strong.png)
 
+
+For the communication, we can see that for the 2^18 size, the number of threads is doing a substanial effect on the communication. This is regardless of the input type. The effect is also more apparent in a smaller input size, hence why 2^18 is displayed. 
+
 ![Alt text](bitonic_sort_images/comp-strong.png)
+
+
+For the computation, we can see that the strong scaling and the additional threads are having a large effect on the computation time. This is with a very large input size, which utilizes the cluster's parallel abilities to its advantage.
 
 Speedup - CUDA
 
 
 ![Alt text](bitonic_sort_images/comp-speedup.png)
+
+As for the speedup, we can see a substainial effect in the beginning for the large input size. This is probably due to the fact that the initial exponential effect on the threads is having a large effect on runtime. We can see it tapering off as we add more threads. It also starts to decrease, which could mean that the excessive parallelism can lead to wasted computation.
 
 Weak Scaling - MPI
 
