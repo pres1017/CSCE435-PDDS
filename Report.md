@@ -510,6 +510,14 @@ The CUDA implementation of the Odd-even sort, on the other hand, performs way be
 
 ### Bitonic Sort - Rahul Kumar
 
+For the final evaulation of the Bitonic Sort Performance, I focused on how the performance changes between strong and weak scaling, and if is there any speedup present during strong scaling. 
+
+CUDA - 
+My CUDA implementation relies on sending a sort step to the CUDA kernal which will run on the GPU. The sort function will allocate memory on the GPU, then copy the data. After copuing the data, the sorting kernal will be executed in individual steps, and then finally copied back to the host.
+
+MPI-
+
+
 
 Weak Scaling - CUDA
 
