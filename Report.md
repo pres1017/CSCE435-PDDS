@@ -506,7 +506,9 @@ The CUDA implementation of the Odd-even sort, on the other hand, performs way be
 
 ![Alt text](bitonic_sort_images/mpi_1048.png)
 
+## 6. Final Report on Sorting Algorithm Performance
 
+### Bitonic Sort - Rahul Kumar
 
 
 
