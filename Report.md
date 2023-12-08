@@ -547,7 +547,7 @@ Speedup - CUDA
 ![Alt text](bitonic_sort_images/comp-speedup.png)
 
 
-As for the speedup, we can see a substainial effect in the beginning for the large input size. This is probably due to the fact that the initial exponential effect on the threads is having a large effect on runtime. We can see it tapering off as we add more threads. It also starts to decrease, which could mean that the excessive parallelism can lead to wasted computation.
+As for the speedup, we can see a substantial effect in the beginning for the large input size. This is probably due to the fact that the initial exponential effect on the threads is having a large effect on runtime. We can see it tapering off as we add more threads. It also starts to decrease, which could mean that the excessive parallelism can lead to wasted computation.
 
 Weak Scaling - MPI
 
