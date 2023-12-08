@@ -573,4 +573,8 @@ Speedup - MPI
 In terms of speedup, we can see that the 2^18 input size is having large speedup in the beginning when processess are added. The speedup seems to reducing as we add more processess, meaning that excessive parallelism is unnecessary for this calculation.
 
 
+### CUDA - Strong Scaling
+
+![Alt text](bitonic_sort_images/strong-cuda/1.png)
+
 
