@@ -765,6 +765,10 @@ The CUDA implementation of MergeSort saw inconsistent performance and relatively
 
 The MPI implementation sees a more dramatic improvement compared to the CUDA implementation. This implementation distributes more of the merging itself to the processes; though the main process still handles the final merge, the data is mostly sorted by the time it arrives at that point. As demonstrated by the weak scaling graph, at lower numbers of processes, the work is evenly distributed, though the algorithm has difficulty managing higher numbers of processes. The communication in particular represents a major bottleneck; as more processes are leveraged, the overhead eventually eclipses the benefits from parallelization, resulting in diminishing returns and eventually a reduction in performance. 
 
+Sources: 
+https://github.com/racorretjer/Parallel-Merge-Sort-with-MPI/blob/master/merge-mpi.c  
+https://www.geeksforgeeks.org/merge-sort/
+
 # Conclusion
 
 MergeSort performed well because MergeSort - even when implemented purely sequentially - is an efficient algorithm. Thus, though MergeSort saw *some* benefits from parallelization, but these benefits were muted in comparison to the other algorithms. As such, if one wishes to leverage many processors to improve the performance of their sorting algorithms, other options - like enumeration sort - should be considered.
