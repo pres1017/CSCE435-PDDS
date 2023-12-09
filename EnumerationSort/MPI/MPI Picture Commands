@@ -1,0 +1,108 @@
+Strong Scaling comp 1048576 Avg time.png
+Strong Scaling comp 65536 Avg time.png
+Strong Scaling comp 4194304 Avg time.png
+Strong Scaling comp 262144 Avg time.png
+Strong Scaling comp_large 1048576 Avg time.png
+Strong Scaling comp_large 65536 Avg time.png
+Strong Scaling comp_large 4194304 Avg time.png
+Strong Scaling comp_large 262144 Avg time.png
+Strong Scaling data_init 1048576 Avg time.png
+Strong Scaling data_init 65536 Avg time.png
+Strong Scaling data_init 4194304 Avg time.png
+Strong Scaling data_init 262144 Avg time.png
+Strong Scaling main 1048576 Avg time.png
+Strong Scaling main 65536 Avg time.png
+Strong Scaling main 4194304 Avg time.png
+Strong Scaling main 262144 Avg time.png
+Strong Scaling MPI_Gather 1048576 Avg time.png
+Strong Scaling MPI_Gather 65536 Avg time.png
+Strong Scaling MPI_Gather 4194304 Avg time.png
+Strong Scaling MPI_Gather 262144 Avg time.png
+Strong Scaling comm_large 1048576 Avg time.png
+Strong Scaling comm_large 65536 Avg time.png
+Strong Scaling comm_large 4194304 Avg time.png
+Strong Scaling comm_large 262144 Avg time.png
+Strong Scaling MPI_Bcast 1048576 Avg time.png
+Strong Scaling MPI_Bcast 65536 Avg time.png
+Strong Scaling MPI_Bcast 4194304 Avg time.png
+Strong Scaling MPI_Bcast 262144 Avg time.png
+Strong Scaling comm 1048576 Avg time.png
+Strong Scaling comm 65536 Avg time.png
+Strong Scaling comm 4194304 Avg time.png
+Strong Scaling comm 262144 Avg time.png
+Strong Scaling correctness_check 1048576 Avg time.png
+Strong Scaling correctness_check 65536 Avg time.png
+Strong Scaling correctness_check 4194304 Avg time.png
+Strong Scaling correctness_check 262144 Avg time.png
+Speedup comp 1048576 Avg time.png
+Speedup comp 65536 Avg time.png
+Speedup comp 4194304 Avg time.png
+Speedup comp 262144 Avg time.png
+Speedup comp_large 1048576 Avg time.png
+Speedup comp_large 65536 Avg time.png
+Speedup comp_large 4194304 Avg time.png
+Speedup comp_large 262144 Avg time.png
+Speedup data_init 1048576 Avg time.png
+Speedup data_init 65536 Avg time.png
+Speedup data_init 4194304 Avg time.png
+Speedup data_init 262144 Avg time.png
+Speedup main 1048576 Avg time.png
+Speedup main 65536 Avg time.png
+Speedup main 4194304 Avg time.png
+Speedup main 262144 Avg time.png
+Speedup MPI_Gather 1048576 Avg time.png
+Speedup MPI_Gather 65536 Avg time.png
+Speedup MPI_Gather 4194304 Avg time.png
+Speedup MPI_Gather 262144 Avg time.png
+Speedup comm_large 1048576 Avg time.png
+Speedup comm_large 65536 Avg time.png
+Speedup comm_large 4194304 Avg time.png
+Speedup comm_large 262144 Avg time.png
+Speedup MPI_Bcast 1048576 Avg time.png
+Speedup MPI_Bcast 65536 Avg time.png
+Speedup MPI_Bcast 4194304 Avg time.png
+Speedup MPI_Bcast 262144 Avg time.png
+Speedup comm 1048576 Avg time.png
+Speedup comm 65536 Avg time.png
+Speedup comm 4194304 Avg time.png
+Speedup comm 262144 Avg time.png
+Speedup correctness_check 1048576 Avg time.png
+Speedup correctness_check 65536 Avg time.png
+Speedup correctness_check 4194304 Avg time.png
+Speedup correctness_check 262144 Avg time.png
+Weak Scaling correctness_check 1%%perturbed.png
+Weak Scaling correctness_check Random.png
+Weak Scaling correctness_check ReverseSorted.png
+Weak Scaling correctness_check Sorted.png
+Weak Scaling comm 1%%perturbed.png
+Weak Scaling comm Random.png
+Weak Scaling comm ReverseSorted.png
+Weak Scaling comm Sorted.png
+Weak Scaling MPI_Gather 1%%perturbed.png
+Weak Scaling MPI_Gather Random.png
+Weak Scaling MPI_Gather ReverseSorted.png
+Weak Scaling MPI_Gather Sorted.png
+Weak Scaling main 1%%perturbed.png
+Weak Scaling main Random.png
+Weak Scaling main ReverseSorted.png
+Weak Scaling main Sorted.png
+Weak Scaling comp 1%%perturbed.png
+Weak Scaling comp Random.png
+Weak Scaling comp ReverseSorted.png
+Weak Scaling comp Sorted.png
+Weak Scaling comm_large 1%%perturbed.png
+Weak Scaling comm_large Random.png
+Weak Scaling comm_large ReverseSorted.png
+Weak Scaling comm_large Sorted.png
+Weak Scaling data_init 1%%perturbed.png
+Weak Scaling data_init Random.png
+Weak Scaling data_init ReverseSorted.png
+Weak Scaling data_init Sorted.png
+Weak Scaling MPI_Bcast 1%%perturbed.png
+Weak Scaling MPI_Bcast Random.png
+Weak Scaling MPI_Bcast ReverseSorted.png
+Weak Scaling MPI_Bcast Sorted.png
+Weak Scaling comp_large 1%%perturbed.png
+Weak Scaling comp_large Random.png
+Weak Scaling comp_large ReverseSorted.png
+Weak Scaling comp_large Sorted.png

@@ -1,0 +1,208 @@
+Speedup cudaMemcpy 1048576.png
+Speedup cudaMemcpy 4194304.png
+Speedup cudaMemcpy 16777216.png
+Speedup cudaMemcpy 65536.png
+Speedup cudaMemcpy 67108864.png
+Speedup cudaMemcpy 262144.png
+Speedup comp 1048576.png
+Speedup comp 4194304.png
+Speedup comp 16777216.png
+Speedup comp 65536.png
+Speedup comp 67108864.png
+Speedup comp 262144.png
+Speedup comp_large 1048576.png
+Speedup comp_large 4194304.png
+Speedup comp_large 16777216.png
+Speedup comp_large 65536.png
+Speedup comp_large 67108864.png
+Speedup comp_large 262144.png
+Speedup comm 1048576.png
+Speedup comm 4194304.png
+Speedup comm 16777216.png
+Speedup comm 65536.png
+Speedup comm 67108864.png
+Speedup comm 262144.png
+Speedup data_init 1048576.png
+Speedup data_init 4194304.png
+Speedup data_init 16777216.png
+Speedup data_init 65536.png
+Speedup data_init 67108864.png
+Speedup data_init 262144.png
+Speedup main 1048576.png
+Speedup main 4194304.png
+Speedup main 16777216.png
+Speedup main 65536.png
+Speedup main 67108864.png
+Speedup main 262144.png
+Speedup comm_large 1048576.png
+Speedup comm_large 4194304.png
+Speedup comm_large 16777216.png
+Speedup comm_large 65536.png
+Speedup comm_large 67108864.png
+Speedup comm_large 262144.png
+Speedup correctness_check 1048576.png
+Speedup correctness_check 4194304.png
+Speedup correctness_check 16777216.png
+Speedup correctness_check 65536.png
+Speedup correctness_check 67108864.png
+Speedup correctness_check 262144.png
+cudaMemcpy 1048576 Avg GPU time.png
+cudaMemcpy 4194304 Avg GPU time.png
+cudaMemcpy 16777216 Avg GPU time.png
+cudaMemcpy 65536 Avg GPU time.png
+cudaMemcpy 67108864 Avg GPU time.png
+cudaMemcpy 262144 Avg GPU time.png
+comp 1048576 Avg GPU time.png
+comp 4194304 Avg GPU time.png
+comp 16777216 Avg GPU time.png
+comp 65536 Avg GPU time.png
+comp 67108864 Avg GPU time.png
+comp 262144 Avg GPU time.png
+comp_large 1048576 Avg GPU time.png
+comp_large 4194304 Avg GPU time.png
+comp_large 16777216 Avg GPU time.png
+comp_large 65536 Avg GPU time.png
+comp_large 67108864 Avg GPU time.png
+comp_large 262144 Avg GPU time.png
+comm 1048576 Avg GPU time.png
+comm 4194304 Avg GPU time.png
+comm 16777216 Avg GPU time.png
+comm 65536 Avg GPU time.png
+comm 67108864 Avg GPU time.png
+comm 262144 Avg GPU time.png
+data_init 1048576 Avg GPU time.png
+data_init 4194304 Avg GPU time.png
+data_init 16777216 Avg GPU time.png
+data_init 65536 Avg GPU time.png
+data_init 67108864 Avg GPU time.png
+data_init 262144 Avg GPU time.png
+main 1048576 Avg GPU time.png
+main 4194304 Avg GPU time.png
+main 16777216 Avg GPU time.png
+main 65536 Avg GPU time.png
+main 67108864 Avg GPU time.png
+main 262144 Avg GPU time.png
+comm_large 1048576 Avg GPU time.png
+comm_large 4194304 Avg GPU time.png
+comm_large 16777216 Avg GPU time.png
+comm_large 65536 Avg GPU time.png
+comm_large 67108864 Avg GPU time.png
+comm_large 262144 Avg GPU time.png
+correctness_check 1048576 Avg GPU time.png
+correctness_check 4194304 Avg GPU time.png
+correctness_check 16777216 Avg GPU time.png
+correctness_check 65536 Avg GPU time.png
+correctness_check 67108864 Avg GPU time.png
+correctness_check 262144 Avg GPU time.png
+cudaMemcpy 1048576 Avg time.png
+cudaMemcpy 4194304 Avg time.png
+cudaMemcpy 16777216 Avg time.png
+cudaMemcpy 65536 Avg time.png
+cudaMemcpy 67108864 Avg time.png
+cudaMemcpy 262144 Avg time.png
+comp 1048576 Avg time.png
+comp 4194304 Avg time.png
+comp 16777216 Avg time.png
+comp 65536 Avg time.png
+comp 67108864 Avg time.png
+comp 262144 Avg time.png
+comp_large 1048576 Avg time.png
+comp_large 4194304 Avg time.png
+comp_large 16777216 Avg time.png
+comp_large 65536 Avg time.png
+comp_large 67108864 Avg time.png
+comp_large 262144 Avg time.png
+comm 1048576 Avg time.png
+comm 4194304 Avg time.png
+comm 16777216 Avg time.png
+comm 65536 Avg time.png
+comm 67108864 Avg time.png
+comm 262144 Avg time.png
+data_init 1048576 Avg time.png
+data_init 4194304 Avg time.png
+data_init 16777216 Avg time.png
+data_init 65536 Avg time.png
+data_init 67108864 Avg time.png
+data_init 262144 Avg time.png
+main 1048576 Avg time.png
+main 4194304 Avg time.png
+main 16777216 Avg time.png
+main 65536 Avg time.png
+main 67108864 Avg time.png
+main 262144 Avg time.png
+comm_large 1048576 Avg time.png
+comm_large 4194304 Avg time.png
+comm_large 16777216 Avg time.png
+comm_large 65536 Avg time.png
+comm_large 67108864 Avg time.png
+comm_large 262144 Avg time.png
+correctness_check 1048576 Avg time.png
+correctness_check 4194304 Avg time.png
+correctness_check 16777216 Avg time.png
+correctness_check 65536 Avg time.png
+correctness_check 67108864 Avg time.png
+correctness_check 262144 Avg time.png
+Weak Scaling CPUcudaMemcpy Random.png
+Weak Scaling CPUcudaMemcpy 1%%perturbed.png
+Weak Scaling CPUcudaMemcpy ReverseSorted.png
+Weak Scaling CPUcudaMemcpy Sorted.png
+Weak Scaling CPUcomm_large Random.png
+Weak Scaling CPUcomm_large 1%%perturbed.png
+Weak Scaling CPUcomm_large ReverseSorted.png
+Weak Scaling CPUcomm_large Sorted.png
+Weak Scaling CPUcomp Random.png
+Weak Scaling CPUcomp 1%%perturbed.png
+Weak Scaling CPUcomp ReverseSorted.png
+Weak Scaling CPUcomp Sorted.png
+Weak Scaling CPUdata_init Random.png
+Weak Scaling CPUdata_init 1%%perturbed.png
+Weak Scaling CPUdata_init ReverseSorted.png
+Weak Scaling CPUdata_init Sorted.png
+Weak Scaling CPUmain Random.png
+Weak Scaling CPUmain 1%%perturbed.png
+Weak Scaling CPUmain ReverseSorted.png
+Weak Scaling CPUmain Sorted.png
+Weak Scaling CPUcomp_large Random.png
+Weak Scaling CPUcomp_large 1%%perturbed.png
+Weak Scaling CPUcomp_large ReverseSorted.png
+Weak Scaling CPUcomp_large Sorted.png
+Weak Scaling CPUcomm Random.png
+Weak Scaling CPUcomm 1%%perturbed.png
+Weak Scaling CPUcomm ReverseSorted.png
+Weak Scaling CPUcomm Sorted.png
+Weak Scaling CPUcorrectness_check Random.png
+Weak Scaling CPUcorrectness_check 1%%perturbed.png
+Weak Scaling CPUcorrectness_check ReverseSorted.png
+Weak Scaling CPUcorrectness_check Sorted.png
+Weak Scaling GPU cudaMemcpy Random.png
+Weak Scaling GPU cudaMemcpy 1%%perturbed.png
+Weak Scaling GPU cudaMemcpy ReverseSorted.png
+Weak Scaling GPU cudaMemcpy Sorted.png
+Weak Scaling GPU comm_large Random.png
+Weak Scaling GPU comm_large 1%%perturbed.png
+Weak Scaling GPU comm_large ReverseSorted.png
+Weak Scaling GPU comm_large Sorted.png
+Weak Scaling GPU comp Random.png
+Weak Scaling GPU comp 1%%perturbed.png
+Weak Scaling GPU comp ReverseSorted.png
+Weak Scaling GPU comp Sorted.png
+Weak Scaling GPU data_init Random.png
+Weak Scaling GPU data_init 1%%perturbed.png
+Weak Scaling GPU data_init ReverseSorted.png
+Weak Scaling GPU data_init Sorted.png
+Weak Scaling GPU main Random.png
+Weak Scaling GPU main 1%%perturbed.png
+Weak Scaling GPU main ReverseSorted.png
+Weak Scaling GPU main Sorted.png
+Weak Scaling GPU comp_large Random.png
+Weak Scaling GPU comp_large 1%%perturbed.png
+Weak Scaling GPU comp_large ReverseSorted.png
+Weak Scaling GPU comp_large Sorted.png
+Weak Scaling GPU comm Random.png
+Weak Scaling GPU comm 1%%perturbed.png
+Weak Scaling GPU comm ReverseSorted.png
+Weak Scaling GPU comm Sorted.png
+Weak Scaling GPU correctness_check Random.png
+Weak Scaling GPU correctness_check 1%%perturbed.png
+Weak Scaling GPU correctness_check ReverseSorted.png
+Weak Scaling GPU correctness_check Sorted.png
