@@ -751,15 +751,17 @@ The graphs are available in the EnumerationSort/CUDA and EnumerationSort/MPI fol
 ![Alt text](<EnumerationSort/MPI/Weak Scaling comp_large ReverseSorted.png>)
 ![Alt text](<EnumerationSort/MPI/Weak Scaling comp_large Sorted.png>)
 
-## MergeSort - Preston Malaer
+# MergeSort - Preston Malaer
 
-# CUDA Summary
+## Summaries
+
+### CUDA Summary
 
 ![Alt text](<MergeSort/Graphs/CUDA_Summary.png>)
 
 The CUDA implementation of MergeSort saw inconsistent performance and relatively little benefit from increased threads. This particular implementation handles much of the merging sequentially. Though the subarrays are distributed to the threads for merging (already a sequential process), disparate subarrays are then fed to the main process, which completes the merging. This represents a major bottleneck, canceling out some of the benefits gained from parallelization. 
 
-# MPI Summary
+### MPI Summary
 
 ![Alt text](<MergeSort/Graphs/MPI_Summary.png>)
 
@@ -769,12 +771,12 @@ Sources:
 https://github.com/racorretjer/Parallel-Merge-Sort-with-MPI/blob/master/merge-mpi.c  
 https://www.geeksforgeeks.org/merge-sort/
 
-# Conclusion
+### Conclusion
 
 MergeSort performed well because MergeSort - even when implemented purely sequentially - is an efficient algorithm. Thus, though MergeSort saw *some* benefits from parallelization, but these benefits were muted in comparison to the other algorithms. As such, if one wishes to leverage many processors to improve the performance of their sorting algorithms, other options - like enumeration sort - should be considered.
 
 
-# CUDA - Strong Scaling
+## CUDA - Strong Scaling
 ![Alt text](<MergeSort/Graphs/comm_large/cuda_strong/1.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/cuda_strong/2.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/cuda_strong/3.png>)
@@ -789,7 +791,7 @@ MergeSort performed well because MergeSort - even when implemented purely sequen
 ![Alt text](<MergeSort/Graphs/main/cuda_strong/4.png>)
 
 
-# CUDA - Strong Scaling Speedup
+## CUDA - Strong Scaling Speedup
 ![Alt text](<MergeSort/Graphs/comm_large/cuda_speedup/1.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/cuda_speedup/2.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/cuda_speedup/3.png>)
@@ -804,7 +806,7 @@ MergeSort performed well because MergeSort - even when implemented purely sequen
 ![Alt text](<MergeSort/Graphs/main/cuda_speedup/4.png>)
 
 
-# CUDA - Weak Scaling
+## CUDA - Weak Scaling
 ![Alt text](<MergeSort/Graphs/comm_large/cuda_weak/1.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/cuda_weak/2.png>)
 ![Alt text](<MergeSort/Graphs/comp/cuda_weak/1.png>)
@@ -812,7 +814,7 @@ MergeSort performed well because MergeSort - even when implemented purely sequen
 ![Alt text](<MergeSort/Graphs/main/cuda_weak/1.png>)
 ![Alt text](<MergeSort/Graphs/main/cuda_weak/2.png>)
 
-# MPI - Strong Scaling
+## MPI - Strong Scaling
 ![Alt text](<MergeSort/Graphs/comm_large/mpi_strong/1.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/mpi_strong/2.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/mpi_strong/3.png>)
@@ -823,7 +825,7 @@ MergeSort performed well because MergeSort - even when implemented purely sequen
 ![Alt text](<MergeSort/Graphs/main/mpi_strong/2.png>)
 ![Alt text](<MergeSort/Graphs/main/mpi_strong/3.png>)
 
-# MPI - Strong Scaling Speedup
+## MPI - Strong Scaling Speedup
 ![Alt text](<MergeSort/Graphs/comm_large/mpi_speedup/1.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/mpi_speedup/2.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/mpi_speedup/3.png>)
@@ -834,7 +836,7 @@ MergeSort performed well because MergeSort - even when implemented purely sequen
 ![Alt text](<MergeSort/Graphs/main/mpi_speedup/2.png>)
 ![Alt text](<MergeSort/Graphs/main/mpi_speedup/3.png>)
 
-# MPI - Weak Scaling
+## MPI - Weak Scaling
 ![Alt text](<MergeSort/Graphs/comm_large/mpi_weak/1.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/mpi_weak/2.png>)
 ![Alt text](<MergeSort/Graphs/comp/mpi_weak/1.png>)
