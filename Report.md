@@ -751,9 +751,9 @@ The graphs are available in the EnumerationSort/CUDA and EnumerationSort/MPI fol
 ![Alt text](<EnumerationSort/MPI/Weak Scaling comp_large ReverseSorted.png>)
 ![Alt text](<EnumerationSort/MPI/Weak Scaling comp_large Sorted.png>)
 
-### MergeSort Preston Malaer
+## MergeSort Preston Malaer
 
-## CUDA - Strong Scaling
+# CUDA - Strong Scaling
 ![Alt text](<MergeSort/Graphs/comm_large/cuda_strong/1.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/cuda_strong/2.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/cuda_strong/3.png>)
@@ -768,7 +768,7 @@ The graphs are available in the EnumerationSort/CUDA and EnumerationSort/MPI fol
 ![Alt text](<MergeSort/Graphs/main/cuda_strong/4.png>)
 
 
-## CUDA - Strong Scaling Speedup
+# CUDA - Strong Scaling Speedup
 ![Alt text](<MergeSort/Graphs/comm_large/cuda_speedup/1.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/cuda_speedup/2.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/cuda_speedup/3.png>)
@@ -783,7 +783,7 @@ The graphs are available in the EnumerationSort/CUDA and EnumerationSort/MPI fol
 ![Alt text](<MergeSort/Graphs/main/cuda_speedup/4.png>)
 
 
-## CUDA - Weak Scaling
+# CUDA - Weak Scaling
 ![Alt text](<MergeSort/Graphs/comm_large/cuda_weak/1.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/cuda_weak/2.png>)
 ![Alt text](<MergeSort/Graphs/comp/cuda_weak/1.png>)
@@ -791,7 +791,7 @@ The graphs are available in the EnumerationSort/CUDA and EnumerationSort/MPI fol
 ![Alt text](<MergeSort/Graphs/main/cuda_weak/1.png>)
 ![Alt text](<MergeSort/Graphs/main/cuda_weak/2.png>)
 
-## MPI - Strong Scaling
+# MPI - Strong Scaling
 ![Alt text](<MergeSort/Graphs/comm_large/mpi_strong/1.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/mpi_strong/2.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/mpi_strong/3.png>)
@@ -802,7 +802,7 @@ The graphs are available in the EnumerationSort/CUDA and EnumerationSort/MPI fol
 ![Alt text](<MergeSort/Graphs/main/mpi_strong/2.png>)
 ![Alt text](<MergeSort/Graphs/main/mpi_strong/3.png>)
 
-## MPI - Strong Scaling Speedup
+# MPI - Strong Scaling Speedup
 ![Alt text](<MergeSort/Graphs/comm_large/mpi_speedup/1.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/mpi_speedup/2.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/mpi_speedup/3.png>)
@@ -813,7 +813,7 @@ The graphs are available in the EnumerationSort/CUDA and EnumerationSort/MPI fol
 ![Alt text](<MergeSort/Graphs/main/mpi_speedup/2.png>)
 ![Alt text](<MergeSort/Graphs/main/mpi_speedup/3.png>)
 
-## MPI - Weak Scaling
+# MPI - Weak Scaling
 ![Alt text](<MergeSort/Graphs/comm_large/mpi_weak/1.png>)
 ![Alt text](<MergeSort/Graphs/comm_large/mpi_weak/2.png>)
 ![Alt text](<MergeSort/Graphs/comp/mpi_weak/1.png>)
