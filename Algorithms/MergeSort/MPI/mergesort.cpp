@@ -23,11 +23,6 @@ const char* comp = "comp";
 const char* comp_large = "comp_large";
 const char* comp_small = "comp_small";
 
-void merge(int *, int *, int, int, int);
-void mergeSort(int *, int *, int, int);
-
-
-
 int main(int argc, char** argv) {
   const char* main = "main";
   cali::ConfigManager mgr;
