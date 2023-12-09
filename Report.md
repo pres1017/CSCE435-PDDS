@@ -647,6 +647,9 @@ MPI-
 
 
 
+Note for the following images: The 1%%perturbed for weak scaling isn't showing correctly on the GitHub markdown file due to the double percent signs in the file names. 
+The graphs are available in the EnumerationSort/CUDA and EnumerationSort/MPI folders and are also available in the Jupyter Python files. 
+
 ### CUDA - Strong Scaling
 ![Alt text](<EnumerationSort/CUDA/comp_large 1048576 Avg GPU time.png>)
 ![Alt text](<EnumerationSort/CUDA/comp_large 4194304 Avg GPU time.png>)
@@ -687,6 +690,8 @@ MPI-
 ![Alt text](<EnumerationSort/CUDA/Speedup main 67108864.png>)
 ![Alt text](<EnumerationSort/CUDA/Speedup main 262144.png>)
 
+
+
 ### CUDA - Weak Scaling
 ![Alt text](<EnumerationSort/CUDA/Weak Scaling CPUmain Random.png>)
 ![Alt text](<EnumerationSort/CUDA/Weak Scaling CPUmain 1%%perturbed.png>)
@@ -702,15 +707,47 @@ MPI-
 ![Alt text](<EnumerationSort/CUDA/Weak Scaling GPU comm Sorted.png>)
 
 
-
 ### MPI - Strong Scaling
-
+![Alt text](<EnumerationSort/MPI/Strong Scaling comp_large 1048576 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling comp_large 65536 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling comp_large 4194304 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling comp_large 262144 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling main 1048576 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling main 65536 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling main 4194304 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling main 262144 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling comm 1048576 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling comm 65536 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling comm 4194304 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling comm 262144 Avg time.png>)
 
 ### MPI - Strong Scaling Speedup
-
+![Alt text](<EnumerationSort/MPI/Speedup comp_large 1048576 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup comp_large 65536 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup comp_large 4194304 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup comp_large 262144 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup main 1048576 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup main 65536 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup main 4194304 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup main 262144 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup comm 1048576 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup comm 65536 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup comm 4194304 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup comm 262144 Avg time.png>)
 
 ### MPI - Weak Scaling
-
+![Alt text](<EnumerationSort/MPI/Weak Scaling comm 1%%perturbed.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling comm Random.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling comm ReverseSorted.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling comm Sorted.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling main 1%%perturbed.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling main Random.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling main ReverseSorted.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling main Sorted.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling comp_large 1%%perturbed.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling comp_large Random.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling comp_large ReverseSorted.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling comp_large Sorted.png>)
 
 
 
