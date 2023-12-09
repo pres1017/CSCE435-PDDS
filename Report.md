@@ -633,3 +633,39 @@ In terms of speedup, we can see that the 2^18 input size is having large speedup
 ![Alt text](bitonic_sort_images/speedup-mpi/3.png)
 ![Alt text](bitonic_sort_images/speedup-mpi/4.png)
 ![Alt text](bitonic_sort_images/speedup-mpi/5.png)
+
+
+### Enumeration Sort - Shurui Xu
+
+This is the final evaluation for Enumeration Sort in terms of Strong Scaling, Strong Scaling Speedups, and Weak Scaling across various input sizes, input types, and sections of code (comp_large, comm, and main)
+
+CUDA - 
+![Alt text](EnumerationSort/EnumerationSort CUDA Performance Evaluation.png)
+
+MPI-
+![Alt text](EnumerationSort/EnumerationSort MPI Performance Evaluation.png)
+
+
+
+### CUDA - Strong Scaling
+
+
+### CUDA - Strong Scaling Speedup
+
+
+### CUDA - Weak Scaling
+
+
+
+
+### MPI - Strong Scaling
+
+
+### MPI - Strong Scaling Speedup
+
+
+### MPI - Weak Scaling
+
+
+
+
