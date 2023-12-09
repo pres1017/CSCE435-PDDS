@@ -648,13 +648,58 @@ MPI-
 
 
 ### CUDA - Strong Scaling
-
+![Alt text](<EnumerationSort/CUDA/comp_large 1048576 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comp_large 4194304 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comp_large 16777216 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comp_large 65536 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comp_large 67108864 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comp_large 262144 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comm 1048576 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comm 4194304 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comm 16777216 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comm 65536 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comm 67108864 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comm 262144 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/main 1048576 Avg time.png>)
+![Alt text](<EnumerationSort/CUDA/main 4194304 Avg time.png>)
+![Alt text](<EnumerationSort/CUDA/main 16777216 Avg time.png>)
+![Alt text](<EnumerationSort/CUDA/main 65536 Avg time.png>)
+![Alt text](<EnumerationSort/CUDA/main 67108864 Avg time.png>)
+![Alt text](<EnumerationSort/CUDA/main 262144 Avg time.png>)
 
 ### CUDA - Strong Scaling Speedup
-
+![Alt text](<EnumerationSort/CUDA/Speedup comp_large 1048576.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comp_large 4194304.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comp_large 16777216.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comp_large 65536.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comp_large 67108864.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comp_large 262144.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comm 1048576.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comm 4194304.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comm 16777216.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comm 65536.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comm 67108864.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comm 262144.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup main 1048576.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup main 4194304.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup main 16777216.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup main 65536.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup main 67108864.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup main 262144.png>)
 
 ### CUDA - Weak Scaling
-
+![Alt text](<EnumerationSort/CUDA/Weak Scaling CPUmain Random.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling CPUmain 1%%perturbed.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling CPUmain ReverseSorted.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling CPUmain Sorted.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling GPU comp_large Random.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling GPU comp_large 1%%perturbed.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling GPU comp_large ReverseSorted.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling GPU comp_large Sorted.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling GPU comm Random.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling GPU comm 1%%perturbed.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling GPU comm ReverseSorted.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling GPU comm Sorted.png>)
 
 
 
