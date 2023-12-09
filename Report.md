@@ -641,13 +641,15 @@ This is the final evaluation for Enumeration Sort in terms of Strong Scaling, St
 
 CUDA - 
 ![Alt text](<EnumerationSort/EnumerationSort CUDA Performance Evaluation.png>)
-
+For the CUDA implementation of Enumeration Sort, there are no clear improvements for strong scaling or weak scaling in comp, comm, or main. This is likely because the current implementation requires each thread to check x amount of indices (depending on the block size and dimensions) on the array against the entire array every time (to find the correct index of that spot). This is also a limitation of Enumeration Sort, as it is an O(n^2) algorithm. 
+Since the strong scaling does not appear in CUDA, the strong scaling speed up is always about 1.
+Communication times are significantly lower than computation times.
 MPI-
 ![Alt text](<EnumerationSort/EnumerationSort MPI Performance Evaluation.png>)
+For the MPI implementation, strong scaling is apparent in comp. Weak scaling is also apparent in comp. The flat section in strong scaling is due to errors in the grace cluster job submission files, where I forgot to increase the number of nodes (from 1 to 2). On the comm side, as the number of processors increased, there was an increase in communication. In this example above, the performance for the main is heavily affected by comm. However, as the InputSize increases, the significance of comm decreases in the overall performance, so the main's performance will look more similar to the comp's performance. 
 
 
-
-Note for the following images: The 1%%perturbed for weak scaling isn't showing correctly on the GitHub markdown file due to the double percent signs in the file names. 
+*Note for the following images: The 1%%perturbed for weak scaling isn't showing correctly on the GitHub markdown file due to the double percent signs in the file names. 
 The graphs are available in the EnumerationSort/CUDA and EnumerationSort/MPI folders and are also available in the Jupyter Python files. 
 
 ### CUDA - Strong Scaling
