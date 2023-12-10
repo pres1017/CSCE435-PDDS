@@ -1,0 +1,4 @@
+[mpiexec@c069.cluster] HYDI_dmx_poll_wait_for_event (../../../../../src/pm/i_hydra/libhydra/demux/hydra_demux_poll.c:48): slurmstepd: error: poll(): Bad address
+poll error (Bad address)
+[mpiexec@c069.cluster] main (../../../../../src/pm/i_hydra/mpiexec/mpiexec.c:2019): error waiting for event
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=9402884.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.
