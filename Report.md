@@ -757,13 +757,13 @@ The graphs are available in the EnumerationSort/CUDA and EnumerationSort/MPI fol
 
 ### CUDA Summary
 
-![Alt text](<MergeSort/Graphs/CUDA_Summary.png>)
+![Alt text](<MergeSortImages/Graphs/CUDA_Summary.png>)
 
 The CUDA implementation of MergeSort saw inconsistent performance and relatively little benefit from increased threads. This particular implementation handles much of the merging sequentially. Though the subarrays are distributed to the threads for merging (already a sequential process), disparate subarrays are then fed to the main process, which completes the merging. This represents a major bottleneck, canceling out some of the benefits gained from parallelization. 
 
 ### MPI Summary
 
-![Alt text](<MergeSort/Graphs/MPI_Summary.png>)
+![Alt text](<MergeSortImages/Graphs/MPI_Summary.png>)
 
 The MPI implementation sees a more dramatic improvement compared to the CUDA implementation. This implementation distributes more of the merging itself to the processes; though the main process still handles the final merge, the data is mostly sorted by the time it arrives at that point. As demonstrated by the weak scaling graph, at lower numbers of processes, the work is evenly distributed, though the algorithm has difficulty managing higher numbers of processes. The communication in particular represents a major bottleneck; as more processes are leveraged, the overhead eventually eclipses the benefits from parallelization, resulting in diminishing returns and eventually a reduction in performance. 
 
