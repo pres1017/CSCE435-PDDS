@@ -490,11 +490,11 @@ The MergeSort implementation of CUDA similarly saw no benefits from parallelism.
 
 The MPI implementation of the Odd-even Sort contains a lot of overhead. Because processes do not share memory, they have to send/receive between each other at every odd-even step. According to the graph, this overhead gets worst as the number of processes increases. 
 
-![Alt text](OddEven/MPI/mpi_main.png)
+![Alt text](OddEven/MPI/mpi_strong/mpi_main.png)
 
 The CUDA implementation of the Odd-even sort, on the other hand, performs way better than the MPI. Because threads share memory, there is no need to explicitly send or receive data. This is also backed by the graph below. The time of main is much lower than the MPI implementation and seems to improve as we increase the number of threads.
 
-![Alt text](OddEven/CUDA/cuda_main.png)
+![Alt text](OddEven/CUDA/cuda_strong/cuda_main.png)
 
 ### Bitonic Sort - Rahul Kumar
 
@@ -843,3 +843,124 @@ MergeSort performed well because MergeSort - even when implemented purely sequen
 ![Alt text](<MergeSortImages/Graphs/comp/mpi_weak/2.png>)
 ![Alt text](<MergeSortImages/Graphs/main/mpi_weak/1.png>)
 ![Alt text](<MergeSortImages/Graphs/main/mpi_weak/2.png>)
+
+### Odd-Even Sort - Daniel Armenta
+This is the final evaluation for Enumeration Sort in terms of Strong Scaling, Strong Scaling Speedups, and Weak Scaling across various input sizes, input types, and sections of code (comp_large, comm, and main)
+
+CUDA - 
+![Alt text](<OddEven/presentation/cuda1.png>)
+For the CUDA implementation of Enumeration Sort, there are no clear improvements for strong scaling or weak scaling in comp, comm, or main. This is likely because the current implementation requires each thread to check x amount of indices (depending on the block size and dimensions) on the array against the entire array every time (to find the correct index of that spot). This is also a limitation of Enumeration Sort, as it is an O(n^2) algorithm. 
+Since the strong scaling does not appear in CUDA, the strong scaling speed up is always about 1.
+Communication times are significantly lower than computation times.
+
+![Alt text](<OddEven/presentation/cuda2.png>)
+For the MPI implementation, strong scaling is apparent in comp. Weak scaling is also apparent in comp. The flat section in strong scaling is due to errors in the grace cluster job submission files, where I forgot to increase the number of nodes (from 1 to 2). On the comm side, as the number of processors increased, there was an increase in communication. In this example above, the performance for the main is heavily affected by comm. However, as the InputSize increases, the significance of comm decreases in the overall performance, so the main's performance will look more similar to the comp's performance. 
+
+MPI-
+
+![Alt text](<OddEven/presentation/mpi1.png>)
+For the CUDA implementation of Enumeration Sort, there are no clear improvements for strong scaling or weak scaling in comp, comm, or main. This is likely because the current implementation requires each thread to check x amount of indices (depending on the block size and dimensions) on the array against the entire array every time (to find the correct index of that spot). This is also a limitation of Enumeration Sort, as it is an O(n^2) algorithm. 
+Since the strong scaling does not appear in CUDA, the strong scaling speed up is always about 1.
+Communication times are significantly lower than computation times.
+
+![Alt text](<OddEven/presentation/mpi2.png>)
+For the MPI implementation, strong scaling is apparent in comp. Weak scaling is also apparent in comp. The flat section in strong scaling is due to errors in the grace cluster job submission files, where I forgot to increase the number of nodes (from 1 to 2). On the comm side, as the number of processors increased, there was an increase in communication. In this example above, the performance for the main is heavily affected by comm. However, as the InputSize increases, the significance of comm decreases in the overall performance, so the main's performance will look more similar to the comp's performance. 
+
+### CUDA - Strong Scaling
+![Alt text](<EnumerationSort/CUDA/comp_large 1048576 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comp_large 4194304 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comp_large 16777216 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comp_large 65536 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comp_large 67108864 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comp_large 262144 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comm 1048576 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comm 4194304 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comm 16777216 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comm 65536 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comm 67108864 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/comm 262144 Avg GPU time.png>)
+![Alt text](<EnumerationSort/CUDA/main 1048576 Avg time.png>)
+![Alt text](<EnumerationSort/CUDA/main 4194304 Avg time.png>)
+![Alt text](<EnumerationSort/CUDA/main 16777216 Avg time.png>)
+![Alt text](<EnumerationSort/CUDA/main 65536 Avg time.png>)
+![Alt text](<EnumerationSort/CUDA/main 67108864 Avg time.png>)
+![Alt text](<EnumerationSort/CUDA/main 262144 Avg time.png>)
+
+### CUDA - Strong Scaling Speedup
+![Alt text](<EnumerationSort/CUDA/Speedup comp_large 1048576.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comp_large 4194304.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comp_large 16777216.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comp_large 65536.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comp_large 67108864.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comp_large 262144.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comm 1048576.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comm 4194304.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comm 16777216.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comm 65536.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comm 67108864.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup comm 262144.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup main 1048576.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup main 4194304.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup main 16777216.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup main 65536.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup main 67108864.png>)
+![Alt text](<EnumerationSort/CUDA/Speedup main 262144.png>)
+
+
+
+### CUDA - Weak Scaling
+![Alt text](<EnumerationSort/CUDA/Weak Scaling CPUmain Random.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling CPUmain 1%%perturbed.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling CPUmain ReverseSorted.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling CPUmain Sorted.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling GPU comp_large Random.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling GPU comp_large 1%%perturbed.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling GPU comp_large ReverseSorted.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling GPU comp_large Sorted.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling GPU comm Random.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling GPU comm 1%%perturbed.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling GPU comm ReverseSorted.png>)
+![Alt text](<EnumerationSort/CUDA/Weak Scaling GPU comm Sorted.png>)
+
+
+### MPI - Strong Scaling
+![Alt text](<EnumerationSort/MPI/Strong Scaling comp_large 1048576 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling comp_large 65536 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling comp_large 4194304 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling comp_large 262144 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling main 1048576 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling main 65536 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling main 4194304 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling main 262144 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling comm 1048576 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling comm 65536 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling comm 4194304 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Strong Scaling comm 262144 Avg time.png>)
+
+### MPI - Strong Scaling Speedup
+![Alt text](<EnumerationSort/MPI/Speedup comp_large 1048576 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup comp_large 65536 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup comp_large 4194304 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup comp_large 262144 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup main 1048576 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup main 65536 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup main 4194304 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup main 262144 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup comm 1048576 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup comm 65536 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup comm 4194304 Avg time.png>)
+![Alt text](<EnumerationSort/MPI/Speedup comm 262144 Avg time.png>)
+
+### MPI - Weak Scaling
+![Alt text](<EnumerationSort/MPI/Weak Scaling comm 1%%perturbed.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling comm Random.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling comm ReverseSorted.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling comm Sorted.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling main 1%%perturbed.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling main Random.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling main ReverseSorted.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling main Sorted.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling comp_large 1%%perturbed.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling comp_large Random.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling comp_large ReverseSorted.png>)
+![Alt text](<EnumerationSort/MPI/Weak Scaling comp_large Sorted.png>)
