@@ -215,7 +215,6 @@ int main (int argc, char *argv[])
     exit(1);
     }
     int numworkers = numtasks-1;
-
     // WHOLE PROGRAM COMPUTATION PART STARTS HERE
     //CALI_MARK_BEGIN(whole_computation);
 

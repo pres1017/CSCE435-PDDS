@@ -234,14 +234,14 @@ int main(int argc, char *argv[])
     algorithm = "Bubble/Odd-Even Sort";
     programmingModel = "CUDA";
     datatype = "float";
-    if(atoi(argv[2]) == 0) {
+    if(atoi(argv[3]) == 0) {
         inputType = "Sorted";
     }
-    else if (atoi(argv[2]) == 1) {
+    else if (atoi(argv[3]) == 1) {
         inputType = "Random";
     }
-    else if (atoi(argv[2]) == 2) {
-        inputType = " Reverse sorted";
+    else if (atoi(argv[3]) == 2) {
+        inputType = "Reverse sorted";
     }
     else{
         inputType = "1%perturbed";
