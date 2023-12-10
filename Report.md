@@ -480,11 +480,11 @@ Due to the bugs I have introduced, there is currently no speedup, unless more no
 
 The current implementation of MergeSort in MPI is incredibly inefficient, suggesting either an issue with the implementation itself or the way I'm running it. The more processes that are added, the worse my implementation performs.
 
-![MergeSort MPI Graph](MergeSort/mpiGraph.png)
+![MergeSort MPI Graph](MergeSortImages/mpiGraph.png)
 
 The MergeSort implementation of CUDA similarly saw no benefits from parallelism. Performance stayed the same, regardless of how many threads were added. Once again, this suggests either an issue with the implementation itself or the way the hardware was being utilized. 
 
-![MergeSort CUDA Graph](MergeSort/cudaGraph.png)
+![MergeSort CUDA Graph](MergeSortImages/cudaGraph.png)
 
 ### Odd-even Sort - Daniel Armenta
 
